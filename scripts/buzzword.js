@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeCharts();
     setupEventListeners();
     addPageAnimations();
-    // 立即初始化词掉落动画
+    // Initialize falling words animation immediately
     setupPythonWordCloudControls();
 });
 
@@ -21,11 +21,11 @@ function setupPythonWordCloudControls() {
         // Initialize falling words animation
         initializeFallingWords();
     } else {
-        console.error('容器未找到!');
+        console.error('Container not found!');
     }
     
     // Load word cloud data for potential future use
-    // loadWordCloudData(); // 注释掉以避免CORS错误，因为只需要词掉落效果
+    // loadWordCloudData(); // Commented out to avoid CORS errors, only need falling words effect
 }
 
 // Falling Words Animation Variables
@@ -33,56 +33,56 @@ let fallingWords = [];
 let settledWords = [];
 let isAnimationRunning = true;
 let animationSpeed = 1.5;
-let wordDensity = 25; // 适中词语生成频率
+let wordDensity = 25; // Moderate word generation frequency
 let lastWordTime = 0;
 let currentShape = 'rounded';
 let chinaMapMode = false;
 
-// 中国地图关键坐标点（简化版，相对于容器的百分比坐标）
+// China map key coordinate points (simplified version, percentage coordinates relative to container)
 const chinaMapPoints = [
-    // 东北地区
+    // Northeast region
     {x: 0.85, y: 0.15}, {x: 0.88, y: 0.18}, {x: 0.90, y: 0.22}, {x: 0.87, y: 0.25},
     {x: 0.83, y: 0.28}, {x: 0.80, y: 0.25}, {x: 0.78, y: 0.20}, {x: 0.82, y: 0.17},
     
-    // 华北地区
+    // North China region
     {x: 0.75, y: 0.30}, {x: 0.78, y: 0.33}, {x: 0.80, y: 0.36}, {x: 0.77, y: 0.39},
     {x: 0.73, y: 0.37}, {x: 0.70, y: 0.34}, {x: 0.72, y: 0.31},
     
-    // 华东地区
+    // East China region
     {x: 0.82, y: 0.42}, {x: 0.85, y: 0.45}, {x: 0.87, y: 0.48}, {x: 0.84, y: 0.52},
     {x: 0.81, y: 0.55}, {x: 0.78, y: 0.52}, {x: 0.80, y: 0.48}, {x: 0.83, y: 0.45},
     
-    // 华中地区
+    // Central China region
     {x: 0.68, y: 0.45}, {x: 0.71, y: 0.48}, {x: 0.74, y: 0.51}, {x: 0.71, y: 0.54},
     {x: 0.67, y: 0.52}, {x: 0.64, y: 0.49}, {x: 0.66, y: 0.46},
     
-    // 华南地区
+    // South China region
     {x: 0.65, y: 0.65}, {x: 0.68, y: 0.68}, {x: 0.71, y: 0.71}, {x: 0.74, y: 0.68},
     {x: 0.77, y: 0.65}, {x: 0.74, y: 0.62}, {x: 0.70, y: 0.64}, {x: 0.67, y: 0.67},
     
-    // 西南地区
+    // Southwest region
     {x: 0.45, y: 0.60}, {x: 0.48, y: 0.63}, {x: 0.51, y: 0.66}, {x: 0.54, y: 0.69},
     {x: 0.51, y: 0.72}, {x: 0.47, y: 0.70}, {x: 0.43, y: 0.67}, {x: 0.46, y: 0.63},
     
-    // 西北地区
+    // Northwest region
     {x: 0.35, y: 0.35}, {x: 0.38, y: 0.32}, {x: 0.42, y: 0.29}, {x: 0.45, y: 0.32},
     {x: 0.48, y: 0.35}, {x: 0.51, y: 0.38}, {x: 0.48, y: 0.41}, {x: 0.44, y: 0.39},
     {x: 0.40, y: 0.37}, {x: 0.37, y: 0.40}, {x: 0.33, y: 0.38},
     
-    // 新疆地区
+    // Xinjiang region
     {x: 0.15, y: 0.25}, {x: 0.18, y: 0.22}, {x: 0.22, y: 0.19}, {x: 0.25, y: 0.22},
     {x: 0.28, y: 0.25}, {x: 0.31, y: 0.28}, {x: 0.28, y: 0.31}, {x: 0.24, y: 0.29},
     {x: 0.20, y: 0.27}, {x: 0.17, y: 0.30}, {x: 0.13, y: 0.28},
     
-    // 西藏地区
+    // Tibet region
     {x: 0.25, y: 0.50}, {x: 0.28, y: 0.47}, {x: 0.32, y: 0.44}, {x: 0.35, y: 0.47},
     {x: 0.38, y: 0.50}, {x: 0.35, y: 0.53}, {x: 0.31, y: 0.51}, {x: 0.27, y: 0.53},
     
-    // 内蒙古地区
+    // Inner Mongolia region
     {x: 0.55, y: 0.20}, {x: 0.58, y: 0.17}, {x: 0.62, y: 0.14}, {x: 0.66, y: 0.17},
     {x: 0.70, y: 0.20}, {x: 0.67, y: 0.23}, {x: 0.63, y: 0.21}, {x: 0.59, y: 0.23},
     
-    // 海南岛
+    // Hainan Island
     {x: 0.68, y: 0.80}, {x: 0.70, y: 0.82}, {x: 0.72, y: 0.80}, {x: 0.70, y: 0.78}
 ];
 
@@ -167,7 +167,7 @@ const wordData = {
 
 // Initialize falling words animation
 function initializeFallingWords() {
-    console.log('初始化词掉落动画');
+    console.log('Initialize falling words animation');
     setupFallingWordsEventListeners();
     gameLoop();
 }
@@ -176,57 +176,57 @@ function initializeFallingWords() {
 
 // Create falling word element
 function createWord() {
-    console.log('创建新词语');
+    console.log('Create new word');
     const word = document.createElement('div');
     const text = buzzwordPool[Math.floor(Math.random() * buzzwordPool.length)];
     word.textContent = text;
     word.className = 'falling-word';
     
-    // 弥散风格渐变背景 - 丰富梦幻色彩（调整为深色，透明度1.0）
+    // Diffusion style gradient background - rich dreamy colors (adjusted to dark, opacity 1.0)
     const diffusionGradients = [
-        // 粉色和蓝色渐变
-        'linear-gradient(135deg, rgba(255, 182, 193, 1.0), rgba(135, 206, 250, 1.0))', // 浅粉到天蓝
-        'linear-gradient(135deg, rgba(255, 105, 180, 1.0), rgba(70, 130, 180, 1.0))', // 热粉到钢蓝
-        'linear-gradient(135deg, rgba(255, 20, 147, 1.0), rgba(30, 144, 255, 1.0))', // 深粉到道奇蓝
-        'linear-gradient(135deg, rgba(255, 192, 203, 1.0), rgba(173, 216, 230, 1.0))', // 粉红到浅蓝
+        // Pink and blue gradients
+        'linear-gradient(135deg, rgba(255, 182, 193, 1.0), rgba(135, 206, 250, 1.0))', // Light pink to sky blue
+        'linear-gradient(135deg, rgba(255, 105, 180, 1.0), rgba(70, 130, 180, 1.0))', // Hot pink to steel blue
+        'linear-gradient(135deg, rgba(255, 20, 147, 1.0), rgba(30, 144, 255, 1.0))', // Deep pink to dodger blue
+        'linear-gradient(135deg, rgba(255, 192, 203, 1.0), rgba(173, 216, 230, 1.0))', // Pink to light blue
         
-        // 橘色和西柚红渐变
-        'linear-gradient(135deg, rgba(255, 165, 0, 1.0), rgba(220, 20, 60, 1.0))', // 橙色到深红
-        'linear-gradient(135deg, rgba(255, 140, 0, 1.0), rgba(255, 69, 0, 1.0))', // 深橙到橙红
-        'linear-gradient(135deg, rgba(255, 215, 0, 1.0), rgba(255, 99, 71, 1.0))', // 金色到番茄红
-        'linear-gradient(135deg, rgba(255, 160, 122, 1.0), rgba(205, 92, 92, 1.0))', // 浅橙到印度红
+        // Orange and grapefruit red gradients
+        'linear-gradient(135deg, rgba(255, 165, 0, 1.0), rgba(220, 20, 60, 1.0))', // Orange to crimson
+        'linear-gradient(135deg, rgba(255, 140, 0, 1.0), rgba(255, 69, 0, 1.0))', // Dark orange to orange red
+        'linear-gradient(135deg, rgba(255, 215, 0, 1.0), rgba(255, 99, 71, 1.0))', // Gold to tomato red
+        'linear-gradient(135deg, rgba(255, 160, 122, 1.0), rgba(205, 92, 92, 1.0))', // Light salmon to indian red
         
-        // 蓝色和绿色渐变
-        'linear-gradient(135deg, rgba(0, 191, 255, 1.0), rgba(50, 205, 50, 1.0))', // 深天蓝到酸橙绿
-        'linear-gradient(135deg, rgba(30, 144, 255, 1.0), rgba(0, 255, 127, 1.0))', // 道奇蓝到春绿
-        'linear-gradient(135deg, rgba(70, 130, 180, 1.0), rgba(60, 179, 113, 1.0))', // 钢蓝到中海绿
-        'linear-gradient(135deg, rgba(100, 149, 237, 1.0), rgba(144, 238, 144, 1.0))', // 矢车菊蓝到浅绿
+        // Blue and green gradients
+        'linear-gradient(135deg, rgba(0, 191, 255, 1.0), rgba(50, 205, 50, 1.0))', // Deep sky blue to lime green
+        'linear-gradient(135deg, rgba(30, 144, 255, 1.0), rgba(0, 255, 127, 1.0))', // Dodger blue to spring green
+        'linear-gradient(135deg, rgba(70, 130, 180, 1.0), rgba(60, 179, 113, 1.0))', // Steel blue to medium sea green
+        'linear-gradient(135deg, rgba(100, 149, 237, 1.0), rgba(144, 238, 144, 1.0))', // Cornflower blue to light green
         
-        // 蓝色和紫色渐变
-        'linear-gradient(135deg, rgba(65, 105, 225, 1.0), rgba(138, 43, 226, 1.0))', // 皇家蓝到蓝紫
-        'linear-gradient(135deg, rgba(30, 144, 255, 1.0), rgba(147, 112, 219, 1.0))', // 道奇蓝到中兰花紫
-        'linear-gradient(135deg, rgba(0, 191, 255, 1.0), rgba(186, 85, 211, 1.0))', // 深天蓝到中兰花
-        'linear-gradient(135deg, rgba(135, 206, 250, 1.0), rgba(221, 160, 221, 1.0))', // 天蓝到梅红
+        // Blue and purple gradients
+        'linear-gradient(135deg, rgba(65, 105, 225, 1.0), rgba(138, 43, 226, 1.0))', // Royal blue to blue violet
+        'linear-gradient(135deg, rgba(30, 144, 255, 1.0), rgba(147, 112, 219, 1.0))', // Dodger blue to medium orchid
+        'linear-gradient(135deg, rgba(0, 191, 255, 1.0), rgba(186, 85, 211, 1.0))', // Deep sky blue to medium orchid
+        'linear-gradient(135deg, rgba(135, 206, 250, 1.0), rgba(221, 160, 221, 1.0))', // Sky blue to plum
         
-        // 其他美丽渐变组合
-        'linear-gradient(135deg, rgba(255, 218, 185, 1.0), rgba(255, 182, 193, 1.0))', // 桃色到浅粉
-        'linear-gradient(135deg, rgba(240, 230, 140, 1.0), rgba(255, 160, 122, 1.0))', // 卡其色到浅橙
-        'linear-gradient(135deg, rgba(152, 251, 152, 1.0), rgba(175, 238, 238, 1.0))', // 浅绿到浅青
-        'linear-gradient(135deg, rgba(255, 228, 225, 1.0), rgba(255, 182, 193, 1.0))', // 雾玫瑰到浅粉
-        'linear-gradient(135deg, rgba(230, 230, 250, 1.0), rgba(221, 160, 221, 1.0))', // 薰衣草到梅红
-        'linear-gradient(135deg, rgba(255, 239, 213, 1.0), rgba(255, 218, 185, 1.0))', // 木瓜色到桃色
-        'linear-gradient(135deg, rgba(176, 224, 230, 1.0), rgba(173, 216, 230, 1.0))', // 粉蓝到浅蓝
-        'linear-gradient(135deg, rgba(255, 250, 205, 1.0), rgba(255, 228, 181, 1.0))', // 柠檬绸到鹿皮色
-        'linear-gradient(135deg, rgba(250, 240, 230, 1.0), rgba(255, 228, 196, 1.0))', // 亚麻色到小麦色
-        'linear-gradient(135deg, rgba(255, 245, 238, 1.0), rgba(255, 218, 185, 1.0))', // 海贝色到桃色
-        'linear-gradient(135deg, rgba(240, 248, 255, 1.0), rgba(230, 230, 250, 1.0))', // 爱丽丝蓝到薰衣草
-        'linear-gradient(135deg, rgba(245, 255, 250, 1.0), rgba(240, 255, 240, 1.0))', // 薄荷奶油到蜜瓜色
-        'linear-gradient(135deg, rgba(255, 240, 245, 1.0), rgba(255, 228, 225, 1.0))', // 薰衣草红到雾玫瑰
-        'linear-gradient(135deg, rgba(248, 248, 255, 1.0), rgba(230, 230, 250, 1.0))' // 幽灵白到薰衣草
+        // Other beautiful gradient combinations
+        'linear-gradient(135deg, rgba(255, 218, 185, 1.0), rgba(255, 182, 193, 1.0))', // Peach to light pink
+        'linear-gradient(135deg, rgba(240, 230, 140, 1.0), rgba(255, 160, 122, 1.0))', // Khaki to light salmon
+        'linear-gradient(135deg, rgba(152, 251, 152, 1.0), rgba(175, 238, 238, 1.0))', // Pale green to pale turquoise
+        'linear-gradient(135deg, rgba(255, 228, 225, 1.0), rgba(255, 182, 193, 1.0))', // Misty rose to light pink
+        'linear-gradient(135deg, rgba(230, 230, 250, 1.0), rgba(221, 160, 221, 1.0))', // Lavender to plum
+        'linear-gradient(135deg, rgba(255, 239, 213, 1.0), rgba(255, 218, 185, 1.0))', // Papaya whip to peach
+        'linear-gradient(135deg, rgba(176, 224, 230, 1.0), rgba(173, 216, 230, 1.0))', // Powder blue to light blue
+        'linear-gradient(135deg, rgba(255, 250, 205, 1.0), rgba(255, 228, 181, 1.0))', // Lemon chiffon to moccasin
+        'linear-gradient(135deg, rgba(250, 240, 230, 1.0), rgba(255, 228, 196, 1.0))', // Linen to bisque
+        'linear-gradient(135deg, rgba(255, 245, 238, 1.0), rgba(255, 218, 185, 1.0))', // Seashell to peach
+        'linear-gradient(135deg, rgba(240, 248, 255, 1.0), rgba(230, 230, 250, 1.0))', // Alice blue to lavender
+        'linear-gradient(135deg, rgba(245, 255, 250, 1.0), rgba(240, 255, 240, 1.0))', // Mint cream to honeydew
+        'linear-gradient(135deg, rgba(255, 240, 245, 1.0), rgba(255, 228, 225, 1.0))', // Lavender blush to misty rose
+        'linear-gradient(135deg, rgba(248, 248, 255, 1.0), rgba(230, 230, 250, 1.0))' // Ghost white to lavender
     ];
     const gradientBg = diffusionGradients[Math.floor(Math.random() * diffusionGradients.length)];
     
-    // 弥散风格白色文本
+    // Diffusion style white text
     const textColor = 'rgba(255, 255, 255, 0.95)';
     
     let baseStyles = {
@@ -264,20 +264,20 @@ function createWord() {
     // Random starting position
     const container = document.getElementById('fallingWordsContainer');
     if (!container) {
-        console.error('fallingWordsContainer 未找到!');
+        console.error('fallingWordsContainer not found!');
         return null;
     }
     const containerRect = container.getBoundingClientRect();
     word.style.left = Math.random() * (containerRect.width - 100) + 'px';
     word.style.top = '-50px';
     
-    // 弥散风格悬停效果 - 梦幻发光
+    // Diffusion style hover effect - dreamy glow
     word.addEventListener('mouseenter', function() {
         this.style.transform = 'scale(1.15) translateY(-3px)';
         this.style.boxShadow = '0 0 40px rgba(138, 43, 226, 0.6), 0 0 80px rgba(138, 43, 226, 0.4), 0 0 120px rgba(138, 43, 226, 0.2), 0 8px 25px rgba(0, 0, 0, 0.15)';
         this.style.backdropFilter = 'blur(20px) saturate(1.6)';
         this.style.filter = 'brightness(1.2) saturate(1.3)';
-        this.style.animation = 'none'; // 暂停发光动画
+        this.style.animation = 'none'; // Pause glow animation
     });
     
     word.addEventListener('mouseleave', function() {
@@ -285,7 +285,7 @@ function createWord() {
         this.style.boxShadow = '0 0 30px rgba(138, 43, 226, 0.4), 0 0 60px rgba(138, 43, 226, 0.2), 0 0 90px rgba(138, 43, 226, 0.1), 0 4px 15px rgba(0, 0, 0, 0.1)';
         this.style.backdropFilter = 'blur(15px) saturate(1.4)';
         this.style.filter = 'none';
-        this.style.animation = 'diffusionGlow 3s ease-in-out infinite alternate'; // 恢复发光动画
+        this.style.animation = 'diffusionGlow 3s ease-in-out infinite alternate'; // Resume glow animation
     });
     
     // Add click effect
@@ -305,7 +305,7 @@ function createWord() {
     
     container.appendChild(word);
     fallingWords.push(word);
-    console.log('词语已添加到容器，当前掉落词语数量:', fallingWords.length);
+    console.log('Word added to container, current falling words count:', fallingWords.length);
     
     return word;
 }
@@ -377,7 +377,7 @@ function findNonOverlappingPosition(word, container) {
 function settleWord(word) {
     const container = document.getElementById('fallingWordsContainer');
     if (!container) {
-        console.error('settleWord: fallingWordsContainer 未找到!');
+        console.error('settleWord: fallingWordsContainer not found!');
         return;
     }
     
@@ -389,10 +389,10 @@ function settleWord(word) {
     const wordHeight = word.offsetHeight;
     const currentX = parseInt(word.style.left) || 0;
     
-    // 从底部开始向上查找合适的堆积位置
-    let stackHeight = 20; // 距离底部的基础高度
+    // Find suitable stacking position from bottom up
+    let stackHeight = 20; // Base height from bottom
     
-    // 检查与其他已堆积词汇的重叠
+    // Check overlap with other stacked words
     for (let settledWord of settledWords) {
         if (settledWord !== word) {
             const settledX = parseInt(settledWord.style.left) || 0;
@@ -400,30 +400,30 @@ function settleWord(word) {
             const settledRight = settledX + settledWord.offsetWidth;
             const currentRight = currentX + wordWidth;
             
-            // 检查水平重叠 - 修复重叠检测逻辑
+            // Check horizontal overlap - fix overlap detection logic
             const hasHorizontalOverlap = (currentX < settledRight && currentRight > settledX);
             
             if (hasHorizontalOverlap) {
-                // 如果水平重叠，需要堆叠在上面
+                // If horizontal overlap, need to stack on top
                 stackHeight = Math.max(stackHeight, settledBottom + settledWord.offsetHeight + 5);
             }
         }
     }
     
-    // 确保不超出容器顶部
+    // Ensure not exceeding container top
     stackHeight = Math.min(stackHeight, containerHeight - wordHeight - 20);
     
-    // 设置最终位置
+    // Set final position
     word.style.bottom = stackHeight + 'px';
     word.style.top = 'auto';
     word.style.transform = 'none';
     word.style.animation = 'none';
     
-    // 保持亮度，不变暗
+    // Maintain brightness, don't darken
     word.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
     setTimeout(() => {
         word.style.transform = 'scale(0.95)';
-        // 移除变暗效果，保持原有亮度
+        // Remove darkening effect, maintain original brightness
     }, 100);
     
     // Move from falling to settled
@@ -553,11 +553,11 @@ function drawChinaMapOutline() {
         path.style.animation = 'glowPulse 2s ease-in-out infinite';
     }, 3000);
     
-    console.log('中国地图轮廓动画已触发');
+    console.log('China map outline animation triggered');
 }
 
 // Update statistics
-// 更新统计函数
+// Update statistics function
 function updateStats() {
     const fallingCountEl = document.getElementById('fallingCount');
     const settledCountEl = document.getElementById('settledCount');
@@ -647,7 +647,7 @@ function setupFallingWordsEventListeners() {
 }
 
 // Main game loop
-// 优化的游戏循环 - 减少DOM查询和计算
+// Optimized game loop - reduce DOM queries and calculations
 let frameCount = 0;
 let container = null;
 let containerHeight = 0;
@@ -656,7 +656,7 @@ function gameLoop() {
     if (isAnimationRunning) {
         frameCount++;
         
-        // 缓存容器引用和高度，减少DOM查询
+        // Cache container reference and height, reduce DOM queries
         if (!container || frameCount % 60 === 0) {
             container = document.getElementById('fallingWordsContainer');
             if (container) {
@@ -664,12 +664,12 @@ function gameLoop() {
             }
         }
         
-        // Create new words - 增加生成频率
+        // Create new words - increase generation frequency
         if (frameCount % 2 === 0 && Math.random() * 100 < wordDensity) {
             createWord();
         }
         
-        // 批量更新掉落词汇位置
+        // Batch update falling word positions
         const wordsToSettle = [];
         
         for (let i = fallingWords.length - 1; i >= 0; i--) {
@@ -677,19 +677,19 @@ function gameLoop() {
             const currentTop = parseFloat(word.style.top) || 0;
             const newTop = currentTop + (1.2 * animationSpeed);
             
-            // 直接修改top属性
+            // Directly modify top property
             word.style.top = newTop + 'px';
             
-            // 检查是否需要沉降，减少getBoundingClientRect调用
+            // Check if settling is needed, reduce getBoundingClientRect calls
             if (container && newTop >= containerHeight - 80) {
                 wordsToSettle.push(word);
             }
         }
         
-        // 批量处理需要沉降的词汇
+        // Batch process words that need settling
         wordsToSettle.forEach(word => settleWord(word));
         
-        // 减少统计更新频率
+        // Reduce statistics update frequency
         if (frameCount % 10 === 0) {
             updateStats();
         }
@@ -920,52 +920,52 @@ const wordCloudData = {
         {name: 'lie flat', value: 200}
     ],
     weibo: [
-        {name: '反向旅游', value: 800},
-        {name: '五一小众', value: 600},
-        {name: '避开人群', value: 500},
-        {name: '慢生活', value: 450},
-        {name: '本地游', value: 400},
-        {name: '城市漫步', value: 350},
-        {name: '深度体验', value: 300},
-        {name: '文化探索', value: 250},
-        {name: '美食寻觅', value: 200},
-        {name: '摄影打卡', value: 180}
+        {name: 'reverse tourism', value: 800},
+        {name: 'May Day niche', value: 600},
+        {name: 'avoid crowds', value: 500},
+        {name: 'slow life', value: 450},
+        {name: 'local travel', value: 400},
+        {name: 'city walk', value: 350},
+        {name: 'deep experience', value: 300},
+        {name: 'cultural exploration', value: 250},
+        {name: 'food hunting', value: 200},
+        {name: 'photo check-in', value: 180}
     ],
     xiaohongshu: [
-        {name: '反向旅游', value: 900},
-        {name: '五一小众', value: 750},
-        {name: '避开人群', value: 650},
-        {name: '慢生活', value: 600},
-        {name: '本地游', value: 550},
-        {name: '城市漫步', value: 500},
-        {name: '深度体验', value: 450},
-        {name: '文化探索', value: 400},
-        {name: '美食寻觅', value: 350},
-        {name: '摄影打卡', value: 300}
+        {name: 'reverse tourism', value: 900},
+        {name: 'May Day niche', value: 750},
+        {name: 'avoid crowds', value: 650},
+        {name: 'slow life', value: 600},
+        {name: 'local travel', value: 550},
+        {name: 'city walk', value: 500},
+        {name: 'deep experience', value: 450},
+        {name: 'cultural exploration', value: 400},
+        {name: 'food hunting', value: 350},
+        {name: 'photo check-in', value: 300}
     ],
     douyin: [
-        {name: '反向旅游', value: 700},
-        {name: '五一小众', value: 550},
-        {name: '避开人群', value: 450},
-        {name: '慢生活', value: 400},
-        {name: '本地游', value: 380},
-        {name: '城市漫步', value: 350},
-        {name: '深度体验', value: 320},
-        {name: '文化探索', value: 300},
-        {name: '美食寻觅', value: 280},
-        {name: '摄影打卡', value: 250}
+        {name: 'reverse tourism', value: 700},
+        {name: 'May Day niche', value: 550},
+        {name: 'avoid crowds', value: 450},
+        {name: 'slow life', value: 400},
+        {name: 'local travel', value: 380},
+        {name: 'city walk', value: 350},
+        {name: 'deep experience', value: 320},
+        {name: 'cultural exploration', value: 300},
+        {name: 'food hunting', value: 280},
+        {name: 'photo check-in', value: 250}
     ],
     wechat: [
-        {name: '反向旅游', value: 400},
-        {name: '五一小众', value: 350},
-        {name: '避开人群', value: 300},
-        {name: '慢生活', value: 280},
-        {name: '本地游', value: 250},
-        {name: '城市漫步', value: 220},
-        {name: '深度体验', value: 200},
-        {name: '文化探索', value: 180},
-        {name: '美食寻觅', value: 160},
-        {name: '摄影打卡', value: 140}
+        {name: 'reverse tourism', value: 400},
+        {name: 'May Day niche', value: 350},
+        {name: 'avoid crowds', value: 300},
+        {name: 'slow life', value: 280},
+        {name: 'local travel', value: 250},
+        {name: 'city walk', value: 220},
+        {name: 'deep experience', value: 200},
+        {name: 'cultural exploration', value: 180},
+        {name: 'food hunting', value: 160},
+        {name: 'photo check-in', value: 140}
     ]
 };
 
@@ -974,27 +974,27 @@ const hashtagTrendData = {
     categories: ['May 1', 'May 2', 'May 3', 'May 4', 'May 5'],
     series: [
         {
-            name: '#反向旅游',
+            name: '#ReverseTravel',
             data: [1200, 1500, 1800, 1600, 1400],
             color: '#FF6B6B'
         },
         {
-            name: '#五一小众',
+            name: '#MayDayNiche',
             data: [800, 1200, 1500, 1300, 1100],
             color: '#4ECDC4'
         },
         {
-            name: '#避开人群',
+            name: '#AvoidCrowds',
             data: [600, 1000, 1200, 1100, 900],
             color: '#45B7D1'
         },
         {
-            name: '#慢生活',
+            name: '#SlowLife',
             data: [500, 800, 950, 850, 750],
             color: '#96CEB4'
         },
         {
-            name: '#本地游',
+            name: '#LocalTravel',
             data: [400, 700, 900, 800, 700],
             color: '#FFEAA7'
         }
@@ -1002,7 +1002,7 @@ const hashtagTrendData = {
 };
 
 function initializeCharts() {
-    // initWordCloudChart() 已禁用
+    // initWordCloudChart() disabled
 
 }
 
@@ -1020,7 +1020,7 @@ function updateWordCloud(platform) {
     console.log('Word cloud data:', data);
     console.log('Mask image path:', 'china-map.png');
     
-    // 检查图片是否能加载
+    // Check if image can load
     const img = new Image();
     img.onload = function() {
         console.log('Mask image loaded successfully:', this.width, 'x', this.height);
