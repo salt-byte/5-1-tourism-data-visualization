@@ -606,6 +606,9 @@ function clearSettledWords() {
 
 // Setup event listeners for falling words controls
 function setupFallingWordsEventListeners() {
+    const shapeSelector = document.getElementById('shapeSelector');
+    const chinaMapBtn = document.getElementById('chinaMapBtn');
+    
     document.getElementById('toggleBtn')?.addEventListener('click', toggleAnimation);
     document.getElementById('clearAllBtn')?.addEventListener('click', clearAllWords);
     document.getElementById('clearSettledBtn')?.addEventListener('click', clearSettledWords);
@@ -661,8 +664,8 @@ function gameLoop() {
             }
         }
         
-        // Create new words - 适中频率，减少随机数生成
-        if (frameCount % 3 === 0 && Math.random() * 100 < wordDensity * 0.3) {
+        // Create new words - 增加生成频率
+        if (frameCount % 2 === 0 && Math.random() * 100 < wordDensity) {
             createWord();
         }
         
