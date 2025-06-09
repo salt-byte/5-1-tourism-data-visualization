@@ -32,8 +32,8 @@ function setupPythonWordCloudControls() {
 let fallingWords = [];
 let settledWords = [];
 let isAnimationRunning = true;
-let animationSpeed = 1.5;
-let wordDensity = 25; // Moderate word generation frequency
+let animationSpeed = 6; // Much faster falling speed
+let wordDensity = 100; // Extremely fast word generation frequency while maintaining order
 let lastWordTime = 0;
 let currentShape = 'rounded';
 let chinaMapMode = false;
@@ -174,13 +174,26 @@ function initializeFallingWords() {
 
 
 
-// Create falling word element
-function createWord() {
-    console.log('Create new word');
+// Create falling word element at a specific position
+function createWordAtPosition() {
+    console.log('Create new word in sequence');
     const word = document.createElement('div');
     const text = buzzwordPool[Math.floor(Math.random() * buzzwordPool.length)];
     word.textContent = text;
     word.className = 'falling-word';
+    
+    // Track current drop position
+    if (!window.currentDropPosition) {
+        window.currentDropPosition = 0;
+    }
+    
+    // Cycle through 5 fixed positions for ordered appearance
+    const positions = [0.1, 0.3, 0.5, 0.7, 0.9]; // Positions as percentage of container width
+    const positionIndex = window.currentDropPosition % positions.length;
+    window.currentDropPosition++;
+    
+    // Set fixed drop position
+    const dropPosition = positions[positionIndex];
     
     // Diffusion style gradient background - rich dreamy colors (adjusted to dark, opacity 1.0)
     const diffusionGradients = [
@@ -261,14 +274,15 @@ function createWord() {
     word.style.cssText = cssText;
     word.style.background = gradientBg;
     
-    // Random starting position
+    // Use fixed starting position for ordered appearance
     const container = document.getElementById('fallingWordsContainer');
     if (!container) {
         console.error('fallingWordsContainer not found!');
         return null;
     }
     const containerRect = container.getBoundingClientRect();
-    word.style.left = Math.random() * (containerRect.width - 100) + 'px';
+    const leftPosition = dropPosition * containerRect.width;
+    word.style.left = (leftPosition - 50) + 'px'; // Center word at position
     word.style.top = '-50px';
     
     // Diffusion style hover effect - dreamy glow
@@ -647,51 +661,104 @@ function setupFallingWordsEventListeners() {
 }
 
 // Main game loop
-// Optimized game loop - reduce DOM queries and calculations
+// Optimized game loop for animation with reduced reflows
 let frameCount = 0;
-let container = null;
-let containerHeight = 0;
+let lastPerformanceTime = 0;
+const FRAME_THROTTLE = 1000 / 30; // Cap at 30fps for better performance
 
 function gameLoop() {
-    if (isAnimationRunning) {
-        frameCount++;
+    if (!isAnimationRunning) {
+        requestAnimationFrame(gameLoop);
+        return;
+    }
+    
+    const now = performance.now();
+    const elapsed = now - lastPerformanceTime;
+    
+    // Throttle frame rate for better performance
+    if (elapsed < FRAME_THROTTLE) {
+        requestAnimationFrame(gameLoop);
+        return;
+    }
+    
+    lastPerformanceTime = now;
+    frameCount++;
+    
+    // Cache container reference to avoid repeated DOM lookups
+    const container = document.getElementById('fallingWordsContainer');
+    if (!container) {
+        requestAnimationFrame(gameLoop);
+        return;
+    }
+    
+    const containerHeight = container.offsetHeight;
+    
+    // Generate new words in sequence - start next word when previous word has fallen some distance
+    const currentTime = Date.now();
+    if (currentTime - lastWordTime > wordDensity && fallingWords.length < 5) {
+        // Check if we should create a new word based on the position of existing words
+        let shouldCreateWord = true;
+        if (fallingWords.length > 0) {
+             // Only create new word if the most recent word has fallen at least 20px
+              const lastWord = fallingWords[fallingWords.length - 1];
+              const lastWordTop = parseFloat(lastWord.style.top) || 0;
+              shouldCreateWord = lastWordTop > 20;
+         }
         
-        // Cache container reference and height, reduce DOM queries
-        if (!container || frameCount % 60 === 0) {
-            container = document.getElementById('fallingWordsContainer');
-            if (container) {
-                containerHeight = container.offsetHeight;
-            }
+        if (shouldCreateWord) {
+            // Create word at a fixed horizontal position for ordered appearance
+            const word = createWordAtPosition();
+            lastWordTime = currentTime;
         }
-        
-        // Create new words - increase generation frequency
-        if (frameCount % 2 === 0 && Math.random() * 100 < wordDensity) {
-            createWord();
-        }
-        
-        // Batch update falling word positions
-        const wordsToSettle = [];
-        
-        for (let i = fallingWords.length - 1; i >= 0; i--) {
+    }
+    
+    // Batch update positions with throttling to reduce reflows
+    if (frameCount % 2 === 0) {
+        for (let i = 0; i < fallingWords.length; i++) {
             const word = fallingWords[i];
             const currentTop = parseFloat(word.style.top) || 0;
-            const newTop = currentTop + (1.2 * animationSpeed);
+            word.style.top = (currentTop + animationSpeed) + 'px';
+        }
+    }
+    
+    // Check for settling with reduced frequency
+    if (frameCount % 3 === 0) {
+        const wordsToSettle = [];
+        for (let i = 0; i < fallingWords.length; i++) {
+            const word = fallingWords[i];
+            const wordTop = parseFloat(word.style.top) || 0;
+            const wordHeight = word.offsetHeight || 30;
             
-            // Directly modify top property
-            word.style.top = newTop + 'px';
-            
-            // Check if settling is needed, reduce getBoundingClientRect calls
-            if (container && newTop >= containerHeight - 80) {
+            if (wordTop + wordHeight >= containerHeight - 50) {
                 wordsToSettle.push(word);
             }
         }
         
-        // Batch process words that need settling
-        wordsToSettle.forEach(word => settleWord(word));
+        // Batch process settling words
+        for (let i = 0; i < wordsToSettle.length; i++) {
+            settleWord(wordsToSettle[i]);
+        }
+    }
+    
+    // Reduce statistics update frequency and clean up excess words
+    if (frameCount % 15 === 0) {
+        updateStats();
         
-        // Reduce statistics update frequency
-        if (frameCount % 10 === 0) {
-            updateStats();
+        // Clean up excess settled words to prevent performance issues
+        if (settledWords.length > 20) {
+            const wordsToRemove = settledWords.splice(0, settledWords.length - 15);
+            for (let i = 0; i < wordsToRemove.length; i++) {
+                const word = wordsToRemove[i];
+                if (word.parentNode) {
+                    word.style.transition = 'opacity 0.5s ease-out';
+                    word.style.opacity = '0';
+                    setTimeout(() => {
+                        if (word && word.parentNode) {
+                            word.parentNode.removeChild(word);
+                        }
+                    }, 500);
+                }
+            }
         }
     }
     
