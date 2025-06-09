@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buzz Words - May Day Reverse Tourism</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/pages.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body class="buzzword-page">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <h3>May Day Tourism</h3>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="destination.html" class="nav-link">Destination</a>
+                </li>
+                <li class="nav-item">
+                    <a href="routes.html" class="nav-link">Travel Routes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="consumption.html" class="nav-link">Consumption</a>
+                </li>
+                <li class="nav-item">
+                    <a href="buzzword.html" class="nav-link active">Buzz Words</a>
+                </li>
+                <li class="nav-item">
+                    <a href="fashion.html" class="nav-link">Fashion Trends</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-content">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title">Social Media Buzz Words</h1>
+                <p class="page-subtitle">Trending keywords and phrases that define May Day reverse tourism conversations</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="container">
+
+
+                <!-- Interactive Word Cloud -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h2>Interactive Keywords Cloud</h2>
+                        <div class="chart-controls">
+                            <select id="platformFilter" class="control-select">
+                                <option value="all">All Platforms</option>
+                                <option value="weibo">Weibo</option>
+                                <option value="xiaohongshu">XiaoHongShu</option>
+                                <option value="douyin">Douyin</option>
+                                <option value="wechat">WeChat</option>
+                            </select>
+                            <select id="timeRange" class="control-select">
+                                <option value="all">All Days</option>
+                                <option value="day1">May 1st</option>
+                                <option value="day2">May 2nd</option>
+                                <option value="day3">May 3rd</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="wordCloudChart" class="chart-wrapper" style="height: 600px; position: relative; overflow: hidden; background: radial-gradient(ellipse at center, rgba(138, 43, 226, 0.1) 0%, rgba(30, 144, 255, 0.05) 50%, rgba(255, 255, 0, 0.03) 100%);">
+                        <!-- Falling Words Animation Container -->
+                        <div id="fallingWordsContainer" style="position: absolute; top:0; left:0; width:100%; height:100%; overflow: visible; z-index: 10; pointer-events: none;"></div>
+                            <!-- Control Panel -->
+                            <div id="controlPanel" style="position: absolute; top: 10px; left: 10px; z-index: 20; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(25px); border-radius: 20px; padding: 20px; box-shadow: 0 0 30px rgba(138, 43, 226, 0.4), 0 0 60px rgba(138, 43, 226, 0.2), 0 0 90px rgba(138, 43, 226, 0.1); border: none;">
+                                <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 12px;">
+                                    <button id="toggleBtn" style="background: linear-gradient(135deg, rgba(138, 43, 226, 0.9), rgba(30, 144, 255, 0.9)); color: white; border: none; padding: 8px 16px; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);">Pause</button>
+                                    <button id="clearAllBtn" style="background: linear-gradient(135deg, rgba(255, 20, 147, 0.9), rgba(255, 105, 180, 0.9)); color: white; border: none; padding: 8px 16px; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);">Clear All</button>
+                                    <button id="clearSettledBtn" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.9), rgba(255, 127, 80, 0.9)); color: white; border: none; padding: 8px 16px; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);">Clear Settled</button>
+                                    <label style="color: rgba(255, 255, 255, 0.9); text-shadow: 0 2px 4px rgba(0,0,0,0.3);">Speed: <input type="range" id="speedSlider" min="0.5" max="5" step="0.1" value="1.5" style="width: 70px; margin-left: 6px;"></label>
+                                    <label style="color: rgba(255, 255, 255, 0.9); text-shadow: 0 2px 4px rgba(0,0,0,0.3);">Frequency: <input type="range" id="densitySlider" min="10" max="100" step="5" value="25" style="width: 70px; margin-left: 6px;"></label>
+                                </div>
+                            </div>
+                            
+                            <!-- Statistics Panel -->
+                            <div id="statsPanel" style="position: absolute; top: 10px; right: 10px; z-index: 20; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); border-radius: 16px; padding: 18px; box-shadow: 0 8px 32px rgba(138, 43, 226, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.2); font-size: 12px; color: rgba(255, 255, 255, 0.9); text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+                                <div>Falling: <span id="fallingCount">0</span></div>
+                                <div>Settled: <span id="settledCount">0</span></div>
+                                <div>Total: <span id="totalCount">0</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Top Hashtags Grid -->
+                <div class="hashtag-grid">
+                    <div class="hashtag-category">
+                        <h3>🔥 Most Popular</h3>
+                        <div class="hashtag-list">
+                            <span class="hashtag hot">#reverse_tourism</span>
+                            <span class="hashtag hot">#niche_destinations</span>
+                            <span class="hashtag hot">#avoid_crowds</span>
+                            <span class="hashtag hot">#slow_living</span>
+                            <span class="hashtag hot">#local_travel</span>
+                        </div>
+                    </div>
+                    <div class="hashtag-category">
+                        <h3>📈 Rising Fast</h3>
+                        <div class="hashtag-list">
+                            <span class="hashtag rising">#city_walk</span>
+                            <span class="hashtag rising">#deep_experience</span>
+                            <span class="hashtag rising">#cultural_exploration</span>
+                            <span class="hashtag rising">#food_hunting</span>
+                            <span class="hashtag rising">#photo_spots</span>
+                        </div>
+                    </div>
+                    <div class="hashtag-category">
+                        <h3>💎 Niche Gems</h3>
+                        <div class="hashtag-list">
+                            <span class="hashtag niche">#hidden_spots</span>
+                            <span class="hashtag niche">#local_recommendations</span>
+                            <span class="hashtag niche">#heritage_experience</span>
+                            <span class="hashtag niche">#handicrafts</span>
+                            <span class="hashtag niche">#homestay_life</span>
+                        </div>
+                    </div>
+                    <div class="hashtag-category">
+                        <h3>🌟 Emerging</h3>
+                        <div class="hashtag-list">
+                            <span class="hashtag emerging">#sustainable_tourism</span>
+                            <span class="hashtag emerging">#carbon_neutral</span>
+                            <span class="hashtag emerging">#community_tourism</span>
+                            <span class="hashtag emerging">#digital_nomad</span>
+                            <span class="hashtag emerging">#workation</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Social Media Statistics -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">42%</span>
+                        <span class="stat-label">XiaoHongShu Dominance</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">3x</span>
+                        <span class="stat-label">Food Content Engagement</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">7-9PM</span>
+                        <span class="stat-label">Peak Activity Hours</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">28%</span>
+                        <span class="stat-label">Douyin Share</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Back to Home Button -->
+    <div class="floating-home-btn">
+        <a href="index.html" class="home-btn">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- Scripts -->
+    <script src="echarts.min.js"></script>
+    <script src="echarts-wordcloud.min.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/buzzword.js"></script>
+</body>
+</html>

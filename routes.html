@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Routes - May Day Reverse Tourism</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/pages.css">
+    <link rel="stylesheet" href="styles/interaction-hint.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body class="routes-page">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <h3>May Day Tourism</h3>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="destination.html" class="nav-link">Destination</a>
+                </li>
+                <li class="nav-item">
+                    <a href="routes.html" class="nav-link active">Travel Routes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="consumption.html" class="nav-link">Consumption</a>
+                </li>
+                <li class="nav-item">
+                    <a href="buzzword.html" class="nav-link">Buzz Words</a>
+                </li>
+                <li class="nav-item">
+                    <a href="fashion.html" class="nav-link">Fashion Trends</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-content">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title">May Day Holiday Travel Analysis</h1>
+                <p class="page-subtitle">Suburban Tourism & Reverse Travel Trends - Short-Distance High-Speed Rail Routes</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="container">
+
+                <!-- China High-Speed Rail Routes Map -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h2>China High-Speed Rail Routes Map</h2>
+                        <p class="chart-subtitle">✨ Click on any colorful route line on the map to discover detailed information about that high-speed rail journey!</p>
+                    </div>
+                    <div id="chinaMapChart" class="chart-wrapper" style="height: 600px;"></div>
+                </div>
+
+                <!-- Statistics Overview -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number" style="color: #9333ea; font-weight: bold; font-size: 1.5em;">120km</span>
+                        <span class="stat-label">Avg Distance</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" style="color: #9333ea; font-weight: bold; font-size: 1.5em;">65%</span>
+                        <span class="stat-label">Reverse Tourism</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" style="color: #9333ea; font-weight: bold; font-size: 1.5em;">2.8M</span>
+                        <span class="stat-label">Suburban Travelers</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" style="color: #9333ea; font-weight: bold; font-size: 1.5em;">1.2h</span>
+                        <span class="stat-label">Avg Travel Time</span>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Back to Home Button -->
+    <div class="floating-home-btn">
+        <a href="index.html" class="home-btn">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- Scripts -->
+    <script src="echarts.min.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/routes.js"></script>
+</body>
+</html>

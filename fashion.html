@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Trends - May Day Tourism Data Visualization</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/pages.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        .chart-container {
+            width: 100%;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            border-radius: 30px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 20px 60px rgba(255, 255, 255, 0.1),
+                0 40px 100px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(196, 181, 253, 0.3) 0%, transparent 60%),
+                radial-gradient(circle at 70% 80%, rgba(251, 146, 60, 0.2) 0%, transparent 60%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 40%);
+            animation: hero-aurora 12s ease-in-out infinite, float 8s ease-in-out infinite;
+            z-index: -1;
+            mix-blend-mode: overlay;
+        }
+
+        .detail-panel {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            border-radius: 25px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 15px 45px rgba(255, 255, 255, 0.1),
+                0 30px 80px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .fashion-bubble-card {
+            position: fixed;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(147, 51, 234, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            width: 650px;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: bubbleSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-family: 'Inter', sans-serif;
+        }
+        
+        @keyframes bubbleSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        .bubble-pointer {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 15px solid rgba(255, 255, 255, 0.9);
+            top: -15px;
+            left: 30px;
+        }
+        
+        .fashion-card-header {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(255, 107, 107, 0.1));
+            padding: 25px 30px 20px;
+            border-radius: 25px 25px 0 0;
+            position: relative;
+        }
+        
+        .fashion-card-title {
+            margin: 0;
+            color: #1a1a2e;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .fashion-card-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .fashion-card-close:hover {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            transform: scale(1.1);
+        }
+        
+        /* Image Gallery Styles */
+        .image-gallery {
+            margin: 20px 0;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .image-gallery h4 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .image-category {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .category-title {
+            color: #fff;
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.3), rgba(255, 107, 107, 0.3));
+            border-radius: 8px;
+            display: inline-block;
+        }
+        
+        .image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 8px 6px 4px;
+            font-size: 11px;
+            text-align: center;
+            border-radius: 0 0 8px 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .image-label {
+            opacity: 1;
+        }
+        
+        .gallery-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+                max-height: 400px;
+                overflow-y: auto;
+            }
+        
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-zoom {
+            font-size: 24px;
+            color: white;
+        }
+        
+        /* Image Modal Styles */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .image-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            transform: scale(1.2);
+        }
+        
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-nav:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .modal-prev {
+            left: -60px;
+        }
+        
+        .modal-next {
+            right: -60px;
+        }
+        
+        @media (max-width: 768px) {
+                .fashion-bubble-card {
+                    width: 90vw;
+                    max-height: 85vh;
+                }
+                
+                .gallery-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 10px;
+                }
+                
+                .modal-nav {
+                    display: none;
+                }
+                
+                .modal-close {
+                    top: -30px;
+                    font-size: 24px;
+                }
+            }
+        
+        .fashion-card-content {
+            padding: 25px 30px 30px;
+        }
+        
+        .trend-tags {
+            margin-bottom: 20px;
+        }
+        
+        .trend-tag {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #9333ea);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 3px 6px 3px 0;
+            box-shadow: 0 2px 8px rgba(147, 51, 234, 0.3);
+        }
+        
+        .content-section {
+            margin-bottom: 25px;
+        }
+        
+        .content-section h4 {
+            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            border-left: 4px solid #9333ea;
+            padding-left: 12px;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, rgba(147, 51, 234, 0.08), rgba(255, 107, 107, 0.08));
+            padding: 18px;
+            border-radius: 12px;
+            margin: 12px 0;
+            border-left: 4px solid #9333ea;
+            position: relative;
+        }
+        
+        .highlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(147, 51, 234, 0.03), rgba(255, 107, 107, 0.03));
+            border-radius: 12px;
+            pointer-events: none;
+        }
+        
+        .content-section p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .bubble-connection {
+            position: fixed;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(147, 51, 234, 0.6), transparent);
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        .detail-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(196, 181, 253, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(251, 146, 60, 0.15) 0%, transparent 50%);
+            z-index: -1;
+            mix-blend-mode: overlay;
+        }
+
+        .detail-panel h3 {
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, 
+                rgba(196, 181, 253, 1) 0%, 
+                rgba(251, 146, 60, 1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(196, 181, 253, 0.3);
+        }
+
+        .detail-panel p {
+            color: var(--text-dark);
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .detail-panel ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .detail-panel li {
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            opacity: 0.85;
+        }
+
+        .chart-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, 
+                rgba(196, 181, 253, 1) 0%, 
+                rgba(251, 146, 60, 1) 50%,
+                rgba(196, 181, 253, 1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(196, 181, 253, 0.4);
+            position: relative;
+        }
+
+        .chart-description {
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            line-height: 1.8;
+            opacity: 0.8;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 60px rgba(255, 255, 255, 0.1),
+                0 40px 100px rgba(0, 0, 0, 0.05);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(196, 181, 253, 0.3) 0%, transparent 60%),
+                radial-gradient(circle at 70% 80%, rgba(251, 146, 60, 0.2) 0%, transparent 60%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 40%);
+            animation: hero-aurora 12s ease-in-out infinite, float 8s ease-in-out infinite;
+            z-index: -1;
+            mix-blend-mode: overlay;
+        }
+
+        @keyframes hero-aurora {
+            0%, 100% {
+                transform: rotate(0deg) scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: rotate(180deg) scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+<body class="fashion-page">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <h3>May Day Tourism</h3>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="destination.html" class="nav-link">Destination</a>
+                </li>
+                <li class="nav-item">
+                    <a href="routes.html" class="nav-link">Travel Routes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="consumption.html" class="nav-link">Consumption</a>
+                </li>
+                <li class="nav-item">
+                    <a href="buzzword.html" class="nav-link">Buzz Words</a>
+                </li>
+                <li class="nav-item">
+                    <a href="fashion.html" class="nav-link active">Fashion Trends</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-content">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title">Fashion Trends Analysis</h1>
+                <p class="page-subtitle">Explore fashion trends through an interactive sunburst chart showing market share and trend changes across different fashion categories</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="container">
+        
+        <div class="chart-container">
+            <div id="sunburstChart" style="width: 100%; height: 100%;"></div>
+        </div>
+        
+                <div class="detail-panel">
+                    <h3>Click Chart to View Details</h3>
+                    <p>Select any area in the chart above to display detailed fashion trend data and analysis here.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Back to Home Button -->
+    <div class="floating-home-btn">
+        <a href="index.html" class="home-btn">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+    </div>
+
+    <script src="./echarts.min.js"></script>
+    <script>
+        // May Day 2025 Fashion Trends Data
+        const sunburstData = {
+            name: 'May Day 2025 Fashion Trends',
+            children: [
+                {
+                    name: 'Relaxed Functional Wear',
+                    value: 20,
+                    children: [
+                        { name: 'Tech-layered Outfits', value: 5, description: 'Multi-layer technical clothing for versatile wear' },
+                        { name: 'Quick-dry Materials', value: 5, description: 'Fast-drying fabrics for active travel' },
+                        { name: 'Onion-layer Dressing', value: 5, description: 'Layering system for temperature adaptation' },
+                        { name: 'Minimalist Basics', value: 5, description: 'Essential pieces for simplified packing' }
+                    ]
+                },
+                {
+                    name: 'Generation-specific Styles',
+                    value: 30,
+                    children: [
+                        { name: 'Gen Z Interest-driven', value: 12, description: '47.2% customize outfits for concerts, anime conventions' },
+                        { name: 'Millennial Chill Wear', value: 10, description: 'UV protection + sandals, 19 billion interactions' },
+                        { name: 'Gen X Family-oriented', value: 8, description: 'Industrial tourism and temple visit styles' }
+                    ]
+                },
+                {
+                    name: 'Destination-adaptive Fashion',
+                    value: 25,
+                    children: [
+                        { name: 'Chongqing Cyberpunk', value: 9, description: 'Reflective outerwear for light rail and night scenes' },
+                        { name: 'Island Lightweight', value: 8, description: 'UV-protective clothing + linen for remote islands' },
+                        { name: 'Reverse Tourism Gear', value: 8, description: 'Windbreakers + quick-dry layers for off-beat destinations' }
+                    ]
+                }
+            ]
+        };
+
+        // Global chart variable
+        let myChart;
+        
+        // Generate categorized image gallery based on folder structure
+        function generateCategorizedGallery(images, trendName) {
+            // Auto-categorize images based on folder path
+            const categories = {};
+            
+            images.forEach(img => {
+                const pathParts = img.split('/');
+                let categoryName = '其他';
+                
+                // Extract category from folder path - matching sunburst structure
+                if (pathParts.includes('Gen Z Interest-driven')) {
+                    categoryName = 'Gen Z Interest-driven';
+                } else if (pathParts.includes('Millennial Chill Wear')) {
+                    categoryName = 'Millennial Chill Wear';
+                } else if (pathParts.includes('Gen X Family-oriented')) {
+                    categoryName = 'Gen X Family-oriented';
+                } else if (pathParts.includes('Chongqing Cyberpunk')) {
+                    categoryName = 'Chongqing Cyberpunk';
+                } else if (pathParts.includes('Island Lightweight')) {
+                    categoryName = 'Island Lightweight';
+                } else if (pathParts.includes('Reverse Tourism Gear')) {
+                    categoryName = 'Reverse Tourism Gear';
+                } else if (pathParts.includes('Tech-layered Outfits')) {
+                    categoryName = 'Tech-layered Outfits';
+                } else if (pathParts.includes('Quick-dry Materials')) {
+                    categoryName = 'Quick-dry Materials';
+                } else if (pathParts.includes('Onion-layer Dressing')) {
+                    categoryName = 'Onion-layer Dressing';
+                } else if (pathParts.includes('Minimalist Basics')) {
+                    categoryName = 'Minimalist Basics';
+                }
+                
+                if (!categories[categoryName]) {
+                    categories[categoryName] = [];
+                }
+                categories[categoryName].push(img);
+            });
+            
+            return Object.entries(categories)
+                .map(([categoryName, categoryImages]) => `
+                    <div class="image-category">
+                        <h5 class="category-title">${categoryName} (${categoryImages.length})</h5>
+                        <div class="gallery-grid">
+                            ${categoryImages.map((img, index) => {
+                                const globalIndex = images.indexOf(img);
+                                return `
+                                    <div class="gallery-item" onclick="openImageModal('${img}', ${globalIndex})">
+                                        <img src="${img}" alt="${categoryName} ${index + 1}" loading="lazy" 
+                                             onerror="this.style.display='none'; this.nextElementSibling.innerHTML='❌ Image not found';">
+                                        <div class="gallery-overlay">
+                                            <span class="gallery-zoom">🔍</span>
+                                        </div>
+                                        <div class="image-label">${getImageLabel(img)}</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `).join('');
+        }
+        
+        // Get descriptive label for image based on filename
+        function getImageLabel(imagePath) {
+            const filename = imagePath.split('/').pop().replace('.jpg', '');
+            const labelMap = {
+                'gen-z-anime-convention': '动漫展穿搭',
+                'gen-z-anime-tshirt': '动漫T恤',
+                'gen-z-fanmeeting': '粉丝见面会',
+                'millennial-casual-combo': '休闲组合',
+                'millennial-sunprotection': '防晒穿搭',
+                'gen-x-linen-dress': '亚麻连衣裙',
+                'gen-x-temple-outfit': '寺庙参拜装',
+                'chongqing-tech-jacket': '重庆科技夹克',
+                'island-lightweight': '海岛轻装',
+                'night-market': '夜市风格',
+                'layering-example': '叠穿示例',
+                'material-linen': '亚麻材质',
+                'material-quickdry': '速干面料',
+                'reflective-polo-combo': '反光Polo组合'
+            };
+            
+            for (const [key, label] of Object.entries(labelMap)) {
+                if (filename.includes(key)) {
+                    return label;
+                }
+            }
+            return '时尚单品';
+        }
+        
+        // Initialize Sunburst Chart
+        function initSunburstChart() {
+            const chartDom = document.getElementById('sunburstChart');
+            myChart = echarts.init(chartDom);
+            
+            const option = {
+                color: [
+                    {
+                        type: 'radial',
+                        x: 0.5, y: 0.5, r: 1.2,
+                        colorStops: [{
+                            offset: 0, color: 'rgba(255, 107, 107, 0.8)'
+                        }, {
+                            offset: 0.7, color: 'rgba(255, 107, 107, 0.4)'
+                        }, {
+                            offset: 1, color: 'rgba(255, 107, 107, 0.1)'
+                        }]
+                    },
+                    {
+                        type: 'radial',
+                        x: 0.5, y: 0.5, r: 1.2,
+                        colorStops: [{
+                            offset: 0, color: 'rgba(147, 51, 234, 0.8)'
+                        }, {
+                            offset: 0.7, color: 'rgba(147, 51, 234, 0.4)'
+                        }, {
+                            offset: 1, color: 'rgba(147, 51, 234, 0.1)'
+                        }]
+                    },
+                    {
+                        type: 'radial',
+                        x: 0.5, y: 0.5, r: 1.2,
+                        colorStops: [{
+                            offset: 0, color: 'rgba(34, 197, 94, 0.8)'
+                        }, {
+                            offset: 0.7, color: 'rgba(34, 197, 94, 0.4)'
+                        }, {
+                            offset: 1, color: 'rgba(34, 197, 94, 0.1)'
+                        }]
+                    },
+                    {
+                        type: 'radial',
+                        x: 0.5, y: 0.5, r: 1.2,
+                        colorStops: [{
+                            offset: 0, color: 'rgba(59, 130, 246, 0.8)'
+                        }, {
+                            offset: 0.7, color: 'rgba(59, 130, 246, 0.4)'
+                        }, {
+                            offset: 1, color: 'rgba(59, 130, 246, 0.1)'
+                        }]
+                    },
+                    {
+                        type: 'radial',
+                        x: 0.5, y: 0.5, r: 1.2,
+                        colorStops: [{
+                            offset: 0, color: 'rgba(245, 158, 11, 0.8)'
+                        }, {
+                            offset: 0.7, color: 'rgba(245, 158, 11, 0.4)'
+                        }, {
+                            offset: 1, color: 'rgba(245, 158, 11, 0.1)'
+                        }]
+                    },
+                    {
+                        type: 'radial',
+                        x: 0.5, y: 0.5, r: 1.2,
+                        colorStops: [{
+                            offset: 0, color: 'rgba(236, 72, 153, 0.8)'
+                        }, {
+                            offset: 0.7, color: 'rgba(236, 72, 153, 0.4)'
+                        }, {
+                            offset: 1, color: 'rgba(236, 72, 153, 0.1)'
+                        }]
+                    },
+                    {
+                        type: 'radial',
+                        x: 0.5, y: 0.5, r: 1.2,
+                        colorStops: [{
+                            offset: 0, color: 'rgba(14, 165, 233, 0.8)'
+                        }, {
+                            offset: 0.7, color: 'rgba(14, 165, 233, 0.4)'
+                        }, {
+                            offset: 1, color: 'rgba(14, 165, 233, 0.1)'
+                        }]
+                    },
+                    {
+                        type: 'radial',
+                        x: 0.5, y: 0.5, r: 1.2,
+                        colorStops: [{
+                            offset: 0, color: 'rgba(168, 85, 247, 0.8)'
+                        }, {
+                            offset: 0.7, color: 'rgba(168, 85, 247, 0.4)'
+                        }, {
+                            offset: 1, color: 'rgba(168, 85, 247, 0.1)'
+                        }]
+                    }
+                ],
+                series: [{
+                    type: 'sunburst',
+                    data: sunburstData.children,
+                    radius: [0, '90%'],
+                    center: ['50%', '50%'],
+                    sort: null,
+                    emphasis: {
+                        focus: 'ancestor'
+                    },
+                    itemStyle: {
+                        borderColor: '#fff',
+                        borderWidth: 1,
+                        opacity: 0.8
+                    },
+                    levels: [{
+                        itemStyle: {
+                            borderColor: 'rgba(255, 255, 255, 0.8)',
+                            borderWidth: 2,
+                            opacity: 0.9
+                        }
+                    }, {
+                        itemStyle: {
+                            borderColor: 'rgba(255, 255, 255, 0.6)',
+                            borderWidth: 1.5,
+                            opacity: 0.8
+                        }
+                    }, {
+                        itemStyle: {
+                            borderColor: 'rgba(255, 255, 255, 0.4)',
+                            borderWidth: 1,
+                            opacity: 0.7
+                        }
+                    }],
+                    label: {
+                        rotate: 'radial',
+                        color: '#1a1a2e',
+                        fontWeight: 'bold',
+                        fontSize: 12
+                    },
+                    labelLayout: {
+                        hideOverlap: true
+                    }
+                }]
+            };
+            
+            myChart.setOption(option);
+            
+            // Handle click events
+            myChart.on('click', function(params) {
+                showDetailCard(params);
+            });
+            
+            // Handle resize
+            window.addEventListener('resize', function() {
+                myChart.resize();
+            });
+        }
+        
+        // Show detail card
+        function showDetailCard(data) {
+            if (!data) return;
+            hideDetailCard();
+            
+            const card = createDetailCard(data);
+            const connection = createConnection();
+            
+            // Position card near the clicked point
+            const rect = myChart.getDom().getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // Calculate position with some offset
+            let cardX = centerX + 100;
+            let cardY = centerY - 150;
+            
+            // Ensure card stays within viewport
+            const cardWidth = 450;
+            const cardHeight = 600;
+            
+            if (cardX + cardWidth > window.innerWidth - 20) {
+                cardX = centerX - cardWidth - 100;
+            }
+            if (cardY < 20) cardY = 20;
+            if (cardY + cardHeight > window.innerHeight - 20) {
+                cardY = window.innerHeight - cardHeight - 20;
+            }
+            
+            card.style.left = cardX + 'px';
+            card.style.top = cardY + 'px';
+            
+            // Position connection line
+            connection.style.left = Math.min(centerX, cardX) + 'px';
+            connection.style.top = centerY + 'px';
+            connection.style.width = Math.abs(cardX - centerX) + 'px';
+            
+            document.body.appendChild(connection);
+            document.body.appendChild(card);
+        }
+        
+        function hideDetailCard() {
+            const existingCard = document.querySelector('.fashion-bubble-card');
+            const existingConnection = document.querySelector('.bubble-connection');
+            
+            if (existingCard) existingCard.remove();
+            if (existingConnection) existingConnection.remove();
+        }
+        
+        function createConnection() {
+            const connection = document.createElement('div');
+            connection.className = 'bubble-connection';
+            return connection;
+        }
+        
+        function createDetailCard(data) {
+            const card = document.createElement('div');
+            card.className = 'fashion-bubble-card';
+            card.innerHTML = getDetailContent(data);
+            
+            const closeBtn = card.querySelector('.fashion-card-close');
+            closeBtn.onclick = hideDetailCard;
+            
+            return card;
+        }
+        
+        function getDetailContent(data) {
+            const trendData = {
+                // 主分类
+                'Relaxed Functional Wear': {
+                    title: 'Relaxed Functional Wear Evolution: Rise of Functional Aesthetics',
+                    tags: ['Reverse Tourism', 'Functional Aesthetics', 'Material Upgrade'],
+                    images: [
+                        'images/fashion-trends/relaxed-functional/Tech-layered Outfits/WechatIMG3324.jpg',
+                        'images/fashion-trends/relaxed-functional/Tech-layered Outfits/WechatIMG3325.jpg',
+                        'images/fashion-trends/relaxed-functional/Quick-dry Materials/material-linen-01.jpg',
+                        'images/fashion-trends/relaxed-functional/Quick-dry Materials/material-quickdry-01.jpg',
+                        'images/fashion-trends/relaxed-functional/Onion-layer Dressing/layering-example-01.jpg',
+                        'images/fashion-trends/relaxed-functional/Onion-layer Dressing/layering-example-02.jpg',
+                        'images/fashion-trends/relaxed-functional/Minimalist Basics/WechatIMG3321.jpg',
+                        'images/fashion-trends/relaxed-functional/Minimalist Basics/WechatIMG3322.jpg'
+                    ],
+                    content: `
+                        <div class="content-section">
+                            <h4>🌟 Core Trends</h4>
+                            <div class="highlight">
+                                <strong>Reverse Tourism Drive:</strong> Xiaohongshu data shows 54.2% of young people choose "vacation pooling" for off-peak travel, 43.9% try "reverse tourism". Taking Chongqing as an example, internet-famous spots like Hongya Cave have spawned "tech-layered looks" (reflective strip jackets + Polo shirts).
+                            </div>
+                            <p><strong>Material Upgrade:</strong> Linen and quick-dry fabrics become mainstream, with practical brands like Uniqlo and COS seeing Q1 sales growth of 35% year-over-year.</p>
+                            <p><strong>Styling Formula:</strong> "T-shirt + cardigan + jacket" multi-layer coordination to handle 12-18℃ temperature differences.</p>
+                        </div>
+                    `
+                },
+                // Relaxed Functional Wear 子分类
+                'Tech-layered Outfits': {
+                    title: 'Tech-layered Outfits: Multi-layer Technical Clothing',
+                    tags: ['Technical Wear', 'Layering', 'Urban Style'],
+                    images: [
+                        'images/fashion-trends/relaxed-functional/Tech-layered Outfits/WechatIMG3324.jpg',
+                        'images/fashion-trends/relaxed-functional/Tech-layered Outfits/WechatIMG3325.jpg'
+                    ],
+                    content: `
+                        <div class="content-section">
+                            <h4>🔧 Technical Layering</h4>
+                            <div class="highlight">
+                                <strong>Multi-layer System:</strong> Combines base layers, insulation, and outer shells for versatile wear in changing conditions.
+                            </div>
+                            <p><strong>Urban Functionality:</strong> Perfect for city exploration with technical fabrics that adapt to weather changes.</p>
+                        </div>
+                    `
+                },
+                'Quick-dry Materials': {
+                    title: 'Quick-dry Materials: Fast-drying Fabrics for Active Travel',
+                    tags: ['Performance Fabrics', 'Travel Gear', 'Moisture Management'],
+                    images: [
+                        'images/fashion-trends/relaxed-functional/Quick-dry Materials/material-linen-01.jpg',
+                        'images/fashion-trends/relaxed-functional/Quick-dry Materials/material-quickdry-01.jpg'
+                    ],
+                    content: `
+                        <div class="content-section">
+                            <h4>💧 Advanced Materials</h4>
+                            <div class="highlight">
+                                <strong>Moisture-wicking Technology:</strong> Fabrics that dry quickly and keep you comfortable during active travel.
+                            </div>
+                            <p><strong>Travel Essential:</strong> Ideal for destinations with high humidity or frequent weather changes.</p>
+                        </div>
+                    `
+                },
+                'Onion-layer Dressing': {
+                    title: 'Onion-layer Dressing: Temperature Adaptation System',
+                    tags: ['Layering System', 'Temperature Control', 'Versatile Wear'],
+                    images: [
+                        'images/fashion-trends/relaxed-functional/Onion-layer Dressing/layering-example-01.jpg',
+                        'images/fashion-trends/relaxed-functional/Onion-layer Dressing/layering-example-02.jpg'
+                    ],
+                    content: `
+                        <div class="content-section">
+                            <h4>🧅 Smart Layering</h4>
+                            <div class="highlight">
+                                <strong>Adaptive System:</strong> Multiple thin layers that can be added or removed based on temperature changes.
+                            </div>
+                            <p><strong>Travel Strategy:</strong> Perfect for destinations with significant temperature variations throughout the day.</p>
+                        </div>
+                    `
+                },
+                'Minimalist Basics': {
+                    title: 'Minimalist Basics: Essential Pieces for Simplified Packing',
+                    tags: ['Minimalism', 'Travel Essentials', 'Versatile Pieces'],
+                    images: [
+                        'images/fashion-trends/relaxed-functional/Minimalist Basics/WechatIMG3321.jpg',
+                        'images/fashion-trends/relaxed-functional/Minimalist Basics/WechatIMG3322.jpg'
+                    ],
+                    content: `
+                        <div class="content-section">
+                            <h4>✨ Essential Simplicity</h4>
+                            <div class="highlight">
+                                <strong>Capsule Wardrobe:</strong> Carefully selected pieces that mix and match for maximum versatility with minimal luggage.
+                            </div>
+                            <p><strong>Smart Packing:</strong> Quality basics that work in multiple settings and climates.</p>
+                        </div>
+                    `
+                },
+                'Generation-specific Styles': {
+                    title: 'Consumer Behavior Differentiation: Generational Needs Reshape Market',
+                    tags: ['Gen Z Interest-Driven', 'Millennial Laid-back', 'Gen X Family-Focused'],
+                    images: [
+                        'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-convention-01.jpg',
+                        'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-convention-02.jpg',
+                        'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-tshirt-01.jpg',
+                        'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-tshirt-02.jpg',
+                        'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-fanmeeting-01.jpg',
+                        'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-fanmeeting-02.jpg',
+                        'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-casual-combo-01.jpg',
+                        'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-casual-combo-02.jpg',
+                        'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-sunprotection-01.jpg',
+                        'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-sunprotection-02.jpg',
+                        'images/fashion-trends/generation-styles/Gen X Family-oriented/gen-x-linen-dress-01.jpg',
+                        'images/fashion-trends/generation-styles/Gen X Family-oriented/gen-x-linen-dress-02.jpg',
+                        'images/fashion-trends/generation-styles/Gen X Family-oriented/gen-x-temple-outfit-01.jpg'
+                    ],
+                    content: `
+                        <div class="content-section">
+                            <h4>📊 Generational Difference Analysis</h4>
+                            <div class="highlight">
+                                <strong>Gen Z Interest-Driven:</strong> Custom outfits for fan events and comic conventions account for 47.2%, with anime print T-shirts and limited edition canvas bags seeing 200% popularity surge.
+                            </div>
+                            <p><strong>Millennial Laid-back Needs:</strong> "No-burden outfits" like sun protection clothing + flip-flops, shirts + shorts have over 19 billion interactions on social media.</p>
+                            <p><strong>Gen X Family Shift:</strong> Industrial tourism and temple blessing routes drive sales of utility vests and cotton-linen dresses, with "temple outfit" topic views growing 87%.</p>
+                        </div>
+                    `
+                },
+                // Generation-specific Styles 子分类
+                'Gen Z Interest-driven': {
+                    title: 'Gen Z Interest-driven: Passion-Based Fashion',
+                    tags: ['Gen Z', 'Interest-driven', 'Self-expression'],
+                    images: [
+                        'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-convention-01.jpg',
+                        'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-convention-02.jpg',
+                        'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-tshirt-01.jpg',
+                        'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-tshirt-02.jpg',
+                        'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-fanmeeting-01.jpg',
+                        'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-fanmeeting-02.jpg'
+                    ],
+                    content: `
+                        <div class="content-section">
+                            <h4>🎯 Interest-Driven Style</h4>
+                            <div class="highlight">
+                                <strong>Fandom Fashion:</strong> Custom outfits for fan events and comic conventions, expressing personal interests through clothing.
+                            </div>
+                            <p><strong>Self-Expression:</strong> Anime prints, limited edition items, and convention-ready outfits that showcase individual passions.</p>
+                        </div>
+                    `
+                },
+                'Millennial Chill Wear': {
+                    title: 'Millennial Chill Wear: Effortless Comfort',
+                    tags: ['Millennial', 'Casual', 'Comfort'],
+                    images: [
+                        'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-casual-combo-01.jpg',
+                        'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-casual-combo-02.jpg',
+                        'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-sunprotection-01.jpg',
+                        'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-sunprotection-02.jpg'
+                    ],
+                    content: `
+                        <div class="content-section">
+                            <h4>😌 Relaxed Lifestyle</h4>
+                            <div class="highlight">
+                                <strong>No-Burden Outfits:</strong> Sun protection clothing, comfortable combinations that prioritize ease and practicality.
+                            </div>
+                            <p><strong>Work-Life Balance:</strong> Versatile pieces that transition from work to leisure with minimal effort.</p>
+                        </div>
+                    `
+                },
+                'Gen X Family-oriented': {
+                    title: 'Gen X Family-oriented: Practical Elegance',
+                    tags: ['Gen X', 'Family-oriented', 'Practical'],
+                    images: [
+                        'images/fashion-trends/generation-styles/Gen X Family-oriented/gen-x-linen-dress-01.jpg',
+                        'images/fashion-trends/generation-styles/Gen X Family-oriented/gen-x-linen-dress-02.jpg',
+                        'images/fashion-trends/generation-styles/Gen X Family-oriented/gen-x-temple-outfit-01.jpg'
+                    ],
+                    content: `
+                        <div class="content-section">
+                            <h4>👨‍👩‍👧‍👦 Family-Focused Style</h4>
+                            <div class="highlight">
+                                <strong>Practical Elegance:</strong> Utility vests, cotton-linen dresses perfect for family activities and cultural visits.
+                            </div>
+                            <p><strong>Multi-Generational Appeal:</strong> Styles that work for family outings, temple visits, and cultural tourism.</p>
+                        </div>
+                    `
+                },
+                'Destination-adaptive Fashion': {
+                    title: 'Destination-Adaptive Fashion: From Check-ins to Local Integration',
+                    tags: ['Chongqing Magic Style', 'Island Vacation', 'Reverse Tourism'],
+                    images: [
+                        'images/fashion-trends/destination-adaptive/Chongqing Cyberpunk/chongqing-tech-jacket-01.jpg',
+                        'images/fashion-trends/destination-adaptive/Island Lightweight/island-lightweight-01.jpg',
+                        'images/fashion-trends/destination-adaptive/Island Lightweight/island-lightweight-02.jpg',
+                        'images/fashion-trends/destination-adaptive/Reverse Tourism Gear/night-market01.jpg',
+                        'images/fashion-trends/destination-adaptive/Reverse Tourism Gear/night-market02.jpg'
+                    ],
+                    content: `
+                        <div class="content-section">
+                            <h4>🗺️ Regional Characteristic Styling</h4>
+                            <div class="highlight">
+                                <strong>Chongqing Magic Style:</strong> Light rail through buildings and night scene photography spawn tech-sense items like reflective strip jackets and layered Polo shirts, paired with crossbody bags for detail enhancement.
+                            </div>
+                            <p><strong>Island Vacation Style:</strong> Lesser-known islands like Siyu Islands promote "lightweight sun protection" - hooded sun protection clothing + linen shirts + quick-dry shorts.</p>
+                            <p><strong>Reverse Tourism Styling Formula:</strong> Remote destinations require "onion-style layering" with windbreakers over quick-dry base layers.</p>
+                        </div>
+                    `
+                },
+                // Destination-adaptive Fashion 子分类
+                'Chongqing Cyberpunk': {
+                    title: 'Chongqing Cyberpunk: Urban Tech Aesthetics',
+                    tags: ['Chongqing', 'Cyberpunk', 'Futuristic'],
+                    images: [
+                        'images/fashion-trends/destination-adaptive/Chongqing Cyberpunk/chongqing-tech-jacket-01.jpg'
+                    ],
+                    content: `
+                        <div class="content-section">
+                            <h4>🌃 Cyberpunk Vibes</h4>
+                            <div class="highlight">
+                                <strong>Tech-Enhanced Style:</strong> Reflective strip jackets and layered looks inspired by Chongqing's futuristic cityscape.
+                            </div>
+                            <p><strong>Urban Photography:</strong> Perfect for capturing the city's neon-lit architecture and light rail scenes.</p>
+                        </div>
+                    `
+                },
+                'Island Lightweight': {
+                    title: 'Island Lightweight: Tropical Minimalism',
+                    tags: ['Island', 'Lightweight', 'Vacation'],
+                    images: [
+                        'images/fashion-trends/destination-adaptive/Island Lightweight/island-lightweight-01.jpg',
+                        'images/fashion-trends/destination-adaptive/Island Lightweight/island-lightweight-02.jpg'
+                    ],
+                    content: `
+                        <div class="content-section">
+                            <h4>🏝️ Tropical Comfort</h4>
+                            <div class="highlight">
+                                <strong>Lightweight Protection:</strong> Hooded sun protection clothing and linen pieces for island exploration.
+                            </div>
+                            <p><strong>Beach Ready:</strong> Quick-dry materials and breathable fabrics perfect for coastal adventures.</p>
+                        </div>
+                    `
+                },
+                'Reverse Tourism Gear': {
+                    title: 'Reverse Tourism Gear: Off-the-Beaten-Path Ready',
+                    tags: ['Reverse-tourism', 'Gear', 'Exploration'],
+                    images: [
+                        'images/fashion-trends/destination-adaptive/Reverse Tourism Gear/night-market01.jpg',
+                        'images/fashion-trends/destination-adaptive/Reverse Tourism Gear/night-market02.jpg'
+                    ],
+                    content: `
+                        <div class="content-section">
+                            <h4>🗺️ Adventure Ready</h4>
+                            <div class="highlight">
+                                <strong>Versatile Layering:</strong> Onion-style layering system for unpredictable conditions in remote destinations.
+                            </div>
+                            <p><strong>Exploration Gear:</strong> Functional pieces designed for discovering hidden gems and local experiences.</p>
+                        </div>
+                    `
+                }
+            };
+            
+            console.log('Clicked data name:', data.name);
+            console.log('Available trendData keys:', Object.keys(trendData));
+            
+            const info = trendData[data.name] || {
+                title: data.name,
+                tags: ['Fashion Trends'],
+                images: [],
+                content: `<p>${data.description || 'This is an important component of 2025 May Day vacation fashion trends.'}</p>`
+            };
+            
+            // Generate categorized image gallery HTML if images exist
+            const imageGallery = info.images && info.images.length > 0 ? `
+                <div class="image-gallery">
+                    <h4>📸 Style Gallery (${info.images.length} images)</h4>
+                    ${generateCategorizedGallery(info.images, data.name)}
+                </div>
+            ` : '<div class="no-images">No images available for this trend</div>';
+            
+            return `
+                <div class="bubble-pointer"></div>
+                <div class="fashion-card-header">
+                    <h3 class="fashion-card-title">${info.title}</h3>
+                    <button class="fashion-card-close">&times;</button>
+                </div>
+                <div class="fashion-card-content">
+                    <div class="trend-tags">
+                        ${info.tags.map(tag => `<span class="trend-tag">${tag}</span>`).join('')}
+                    </div>
+                    ${imageGallery}
+                    ${info.content}
+                </div>
+            `;
+        }
+        
+        // Image Modal Functions
+        let currentImageIndex = 0;
+        let currentImages = [];
+        
+        function openImageModal(imageSrc, index) {
+            currentImages = getCurrentTrendImages();
+            currentImageIndex = index;
+            
+            // Create modal if it doesn't exist
+            let modal = document.getElementById('imageModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'imageModal';
+                modal.className = 'image-modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <button class="modal-close" onclick="closeImageModal()">&times;</button>
+                        <button class="modal-nav modal-prev" onclick="prevImage()">‹</button>
+                        <img class="modal-image" id="modalImage" src="" alt="Fashion trend">
+                        <button class="modal-nav modal-next" onclick="nextImage()">›</button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                
+                // Close modal when clicking outside
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        closeImageModal();
+                    }
+                });
+                
+                // Close modal with Escape key
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && modal.classList.contains('active')) {
+                        closeImageModal();
+                    }
+                });
+                
+                // Navigate with arrow keys
+                document.addEventListener('keydown', function(e) {
+                    if (modal.classList.contains('active')) {
+                        if (e.key === 'ArrowLeft') {
+                            prevImage();
+                        } else if (e.key === 'ArrowRight') {
+                            nextImage();
+                        }
+                    }
+                });
+            }
+            
+            // Update modal image and show
+            document.getElementById('modalImage').src = imageSrc;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        function getCurrentTrendImages() {
+            // Get current trend data to find images
+            const activeCard = document.querySelector('.fashion-detail-card');
+            if (!activeCard) return [];
+            
+            const cardTitle = activeCard.querySelector('.fashion-card-title').textContent;
+            const trendData = {
+                'Relaxed Functional Wear Evolution: Rise of Functional Aesthetics': [
+                    'images/fashion-trends/relaxed-functional/Tech-layered Outfits/WechatIMG3324.jpg',
+                    'images/fashion-trends/relaxed-functional/Tech-layered Outfits/WechatIMG3325.jpg',
+                    'images/fashion-trends/relaxed-functional/Quick-dry Materials/material-linen-01.jpg',
+                    'images/fashion-trends/relaxed-functional/Quick-dry Materials/material-quickdry-01.jpg',
+                    'images/fashion-trends/relaxed-functional/Onion-layer Dressing/layering-example-01.jpg',
+                    'images/fashion-trends/relaxed-functional/Onion-layer Dressing/layering-example-02.jpg',
+                    'images/fashion-trends/relaxed-functional/Minimalist Basics/WechatIMG3321.jpg',
+                    'images/fashion-trends/relaxed-functional/Minimalist Basics/WechatIMG3322.jpg'
+                ],
+                'Consumer Behavior Differentiation: Generational Needs Reshape Market': [
+                    'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-convention-01.jpg',
+                    'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-convention-02.jpg',
+                    'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-tshirt-01.jpg',
+                    'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-tshirt-02.jpg',
+                    'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-fanmeeting-01.jpg',
+                    'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-fanmeeting-02.jpg',
+                    'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-casual-combo-01.jpg',
+                    'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-casual-combo-02.jpg',
+                    'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-sunprotection-01.jpg',
+                    'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-sunprotection-02.jpg',
+                    'images/fashion-trends/generation-styles/Gen X Family-oriented/gen-x-linen-dress-01.jpg',
+                    'images/fashion-trends/generation-styles/Gen X Family-oriented/gen-x-linen-dress-02.jpg',
+                    'images/fashion-trends/generation-styles/Gen X Family-oriented/gen-x-temple-outfit-01.jpg'
+                ],
+                'Destination-Adaptive Fashion: From Check-ins to Local Integration': [
+                    'images/fashion-trends/destination-adaptive/Chongqing Cyberpunk/chongqing-tech-jacket-01.jpg',
+                    'images/fashion-trends/destination-adaptive/Island Lightweight/island-lightweight-01.jpg',
+                    'images/fashion-trends/destination-adaptive/Island Lightweight/island-lightweight-02.jpg',
+                    'images/fashion-trends/destination-adaptive/Reverse Tourism Gear/night-market01.jpg',
+                    'images/fashion-trends/destination-adaptive/Reverse Tourism Gear/night-market02.jpg'
+                ],
+                // 子分类图片数组
+                'Tech-layered Outfits: Multi-layer Technical Clothing': [
+                    'images/fashion-trends/relaxed-functional/Tech-layered Outfits/WechatIMG3324.jpg',
+                    'images/fashion-trends/relaxed-functional/Tech-layered Outfits/WechatIMG3325.jpg'
+                ],
+                'Quick-dry Materials: Fast-drying Fabrics for Active Travel': [
+                    'images/fashion-trends/relaxed-functional/Quick-dry Materials/material-linen-01.jpg',
+                    'images/fashion-trends/relaxed-functional/Quick-dry Materials/material-quickdry-01.jpg'
+                ],
+                'Onion-layer Dressing: Temperature Adaptation System': [
+                    'images/fashion-trends/relaxed-functional/Onion-layer Dressing/layering-example-01.jpg',
+                    'images/fashion-trends/relaxed-functional/Onion-layer Dressing/layering-example-02.jpg'
+                ],
+                'Minimalist Basics: Essential Pieces for Simplified Packing': [
+                    'images/fashion-trends/relaxed-functional/Minimalist Basics/WechatIMG3321.jpg',
+                    'images/fashion-trends/relaxed-functional/Minimalist Basics/WechatIMG3322.jpg'
+                ],
+                'Gen Z Interest-driven: Passion-Based Fashion': [
+                    'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-convention-01.jpg',
+                    'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-convention-02.jpg',
+                    'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-tshirt-01.jpg',
+                    'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-anime-tshirt-02.jpg',
+                    'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-fanmeeting-01.jpg',
+                    'images/fashion-trends/generation-styles/Gen Z Interest-driven/gen-z-fanmeeting-02.jpg'
+                ],
+                'Millennial Chill Wear: Effortless Comfort': [
+                    'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-casual-combo-01.jpg',
+                    'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-casual-combo-02.jpg',
+                    'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-sunprotection-01.jpg',
+                    'images/fashion-trends/generation-styles/Millennial Chill Wear/millennial-sunprotection-02.jpg'
+                ],
+                'Gen X Family-oriented: Practical Elegance': [
+                    'images/fashion-trends/generation-styles/Gen X Family-oriented/gen-x-linen-dress-01.jpg',
+                    'images/fashion-trends/generation-styles/Gen X Family-oriented/gen-x-linen-dress-02.jpg',
+                    'images/fashion-trends/generation-styles/Gen X Family-oriented/gen-x-temple-outfit-01.jpg'
+                ],
+                'Chongqing Cyberpunk: Urban Tech Aesthetics': [
+                    'images/fashion-trends/destination-adaptive/Chongqing Cyberpunk/chongqing-tech-jacket-01.jpg'
+                ],
+                'Island Lightweight: Tropical Minimalism': [
+                    'images/fashion-trends/destination-adaptive/Island Lightweight/island-lightweight-01.jpg',
+                    'images/fashion-trends/destination-adaptive/Island Lightweight/island-lightweight-02.jpg'
+                ],
+                'Reverse Tourism Gear: Off-the-Beaten-Path Ready': [
+                    'images/fashion-trends/destination-adaptive/Reverse Tourism Gear/night-market01.jpg',
+                    'images/fashion-trends/destination-adaptive/Reverse Tourism Gear/night-market02.jpg'
+                ]
+            };
+            
+            return trendData[cardTitle] || [];
+        }
+        
+        function prevImage() {
+            if (currentImages.length === 0) return;
+            currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+            document.getElementById('modalImage').src = currentImages[currentImageIndex];
+        }
+        
+        function nextImage() {
+            if (currentImages.length === 0) return;
+            currentImageIndex = (currentImageIndex + 1) % currentImages.length;
+            document.getElementById('modalImage').src = currentImages[currentImageIndex];
+        }
+        
+        // Initialize chart when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initSunburstChart();
+        });
+    </script>
+</body>
+</html>

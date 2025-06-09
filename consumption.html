@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumption Analysis - May Day Reverse Tourism</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/pages.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body class="consumption-page">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <h3>May Day Tourism</h3>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="destination.html" class="nav-link">Destination</a>
+                </li>
+                <li class="nav-item">
+                    <a href="routes.html" class="nav-link">Travel Routes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="consumption.html" class="nav-link active">Consumption</a>
+                </li>
+                <li class="nav-item">
+                    <a href="buzzword.html" class="nav-link">Buzz Words</a>
+                </li>
+                <li class="nav-item">
+                    <a href="fashion.html" class="nav-link">Fashion Trends</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-content">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title">Tourism Consumption Trend Analysis</h1>
+                <p class="page-subtitle">Exploring Emerging Tourism Consumption Patterns and Growth Drivers</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="container">
+                <!-- 极坐标图表 -->
+                <div class="chart-container" style="background: transparent; border-radius: 15px; padding: 20px; margin-bottom: 30px;">
+                    <div class="chart-header">
+                        <h2>Emerging Tourism Consumption Trends</h2>
+                        <p style="color: #888; font-size: 14px; margin-top: 5px;">Note: Chart shows year-over-year growth percentages, not absolute values</p>
+                    </div>
+                    <div id="polarChart" class="chart-wrapper" style="height: 500px;"></div>
+                </div>
+
+
+
+                <!-- Key Tourism Insights -->
+                <div class="chart-header" style="margin-top: 40px; margin-bottom: 20px;">
+                    <h2>Key Tourism Trends Summary</h2>
+                    <p style="color: #888; font-size: 14px; margin-top: 5px;">Top 3 emerging trends reshaping the tourism landscape</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🚀</div>
+                        <div class="stat-number" style="color: #E76CFD; font-weight: bold; font-size: 1.2em;">Explosive Growth</div>
+                        <div class="stat-label">Camping tours surge 390% YoY, leading all tourism categories with unprecedented demand</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏨</div>
+                        <div class="stat-number" style="color: #74F9A6; font-weight: bold; font-size: 1.2em;">Remote Hotspots</div>
+                        <div class="stat-label">Ultra-high booking rates: Haibei 84%, Diqing 74%, Liuzhou 73% - remote becomes mainstream</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📱</div>
+                        <div class="stat-number" style="color: #69E8FF; font-weight: bold; font-size: 1.2em;">Social Revolution</div>
+                        <div class="stat-label">Live travel updates surge 250% as Gen Z transforms tourism into real-time social experiences</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Back to Home Button -->
+    <div class="floating-home-btn">
+        <a href="index.html" class="home-btn">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- Scripts -->
+    <script src="echarts.min.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/consumption.js"></script>
+</body>
+</html>

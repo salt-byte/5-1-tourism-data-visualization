@@ -1,0 +1,515 @@
+{
+  "words": [
+    {
+      "name": "chill",
+      "value": 1000
+    },
+    {
+      "name": "citywalk",
+      "value": 900
+    },
+    {
+      "name": "suburb",
+      "value": 600
+    },
+    {
+      "name": "concert",
+      "value": 500
+    },
+    {
+      "name": "hiking",
+      "value": 500
+    },
+    {
+      "name": "homestay",
+      "value": 500
+    },
+    {
+      "name": "BBQ",
+      "value": 400
+    },
+    {
+      "name": "cost_performance",
+      "value": 400
+    },
+    {
+      "name": "fun",
+      "value": 300
+    },
+    {
+      "name": "healing",
+      "value": 300
+    },
+    {
+      "name": "niche",
+      "value": 300
+    },
+    {
+      "name": "travel",
+      "value": 250
+    },
+    {
+      "name": "relax",
+      "value": 250
+    },
+    {
+      "name": "lie_flat",
+      "value": 200
+    },
+    {
+      "name": "explore",
+      "value": 200
+    },
+    {
+      "name": "vacation",
+      "value": 200
+    },
+    {
+      "name": "journey",
+      "value": 180
+    },
+    {
+      "name": "adventure",
+      "value": 150
+    },
+    {
+      "name": "peaceful",
+      "value": 150
+    },
+    {
+      "name": "nature",
+      "value": 150
+    },
+    {
+      "name": "escape",
+      "value": 150
+    },
+    {
+      "name": "freedom",
+      "value": 150
+    },
+    {
+      "name": "local",
+      "value": 150
+    },
+    {
+      "name": "culture",
+      "value": 150
+    },
+    {
+      "name": "mountain",
+      "value": 150
+    },
+    {
+      "name": "photography",
+      "value": 150
+    },
+    {
+      "name": "discovery",
+      "value": 120
+    },
+    {
+      "name": "wanderlust",
+      "value": 120
+    },
+    {
+      "name": "tradition",
+      "value": 120
+    },
+    {
+      "name": "festival",
+      "value": 120
+    },
+    {
+      "name": "street_food",
+      "value": 120
+    },
+    {
+      "name": "lake",
+      "value": 120
+    },
+    {
+      "name": "forest",
+      "value": 120
+    },
+    {
+      "name": "beach",
+      "value": 120
+    },
+    {
+      "name": "art",
+      "value": 120
+    },
+    {
+      "name": "meditation",
+      "value": 120
+    },
+    {
+      "name": "tea",
+      "value": 120
+    },
+    {
+      "name": "cuisine",
+      "value": 120
+    },
+    {
+      "name": "walking",
+      "value": 120
+    },
+    {
+      "name": "family",
+      "value": 120
+    },
+    {
+      "name": "music",
+      "value": 100
+    },
+    {
+      "name": "food",
+      "value": 100
+    },
+    {
+      "name": "serenity",
+      "value": 100
+    },
+    {
+      "name": "tranquil",
+      "value": 100
+    },
+    {
+      "name": "mindful",
+      "value": 100
+    },
+    {
+      "name": "authentic",
+      "value": 100
+    },
+    {
+      "name": "market",
+      "value": 100
+    },
+    {
+      "name": "temple",
+      "value": 100
+    },
+    {
+      "name": "garden",
+      "value": 100
+    },
+    {
+      "name": "sunset",
+      "value": 100
+    },
+    {
+      "name": "sunrise",
+      "value": 100
+    },
+    {
+      "name": "craft",
+      "value": 100
+    },
+    {
+      "name": "workshop",
+      "value": 100
+    },
+    {
+      "name": "yoga",
+      "value": 100
+    },
+    {
+      "name": "wellness",
+      "value": 100
+    },
+    {
+      "name": "coffee",
+      "value": 100
+    },
+    {
+      "name": "cooking",
+      "value": 100
+    },
+    {
+      "name": "fresh",
+      "value": 100
+    },
+    {
+      "name": "bicycle",
+      "value": 100
+    },
+    {
+      "name": "camping",
+      "value": 100
+    },
+    {
+      "name": "picnic",
+      "value": 100
+    },
+    {
+      "name": "reading",
+      "value": 100
+    },
+    {
+      "name": "memory",
+      "value": 100
+    },
+    {
+      "name": "friendship",
+      "value": 100
+    },
+    {
+      "name": "community",
+      "value": 100
+    },
+    {
+      "name": "laughter",
+      "value": 100
+    },
+    {
+      "name": "happiness",
+      "value": 100
+    },
+    {
+      "name": "dream",
+      "value": 100
+    },
+    {
+      "name": "spa",
+      "value": 80
+    },
+    {
+      "name": "massage",
+      "value": 80
+    },
+    {
+      "name": "wine",
+      "value": 80
+    },
+    {
+      "name": "recipe",
+      "value": 80
+    },
+    {
+      "name": "farmer",
+      "value": 80
+    },
+    {
+      "name": "organic",
+      "value": 80
+    },
+    {
+      "name": "seasonal",
+      "value": 80
+    },
+    {
+      "name": "running",
+      "value": 80
+    },
+    {
+      "name": "swimming",
+      "value": 80
+    },
+    {
+      "name": "bonfire",
+      "value": 80
+    },
+    {
+      "name": "stargazing",
+      "value": 80
+    },
+    {
+      "name": "writing",
+      "value": 80
+    },
+    {
+      "name": "journal",
+      "value": 80
+    },
+    {
+      "name": "sharing",
+      "value": 80
+    },
+    {
+      "name": "smile",
+      "value": 80
+    },
+    {
+      "name": "joy",
+      "value": 80
+    },
+    {
+      "name": "gratitude",
+      "value": 80
+    },
+    {
+      "name": "hope",
+      "value": 80
+    },
+    {
+      "name": "inspiration",
+      "value": 80
+    },
+    {
+      "name": "creativity",
+      "value": 80
+    },
+    {
+      "name": "design",
+      "value": 80
+    },
+    {
+      "name": "beauty",
+      "value": 80
+    },
+    {
+      "name": "simplicity",
+      "value": 80
+    },
+    {
+      "name": "unique",
+      "value": 80
+    },
+    {
+      "name": "cozy",
+      "value": 80
+    },
+    {
+      "name": "view",
+      "value": 80
+    },
+    {
+      "name": "blessing",
+      "value": 60
+    },
+    {
+      "name": "innovation",
+      "value": 60
+    },
+    {
+      "name": "elegance",
+      "value": 60
+    },
+    {
+      "name": "minimalism",
+      "value": 60
+    },
+    {
+      "name": "vintage",
+      "value": 60
+    },
+    {
+      "name": "modern",
+      "value": 60
+    },
+    {
+      "name": "classic",
+      "value": 60
+    },
+    {
+      "name": "trendy",
+      "value": 60
+    },
+    {
+      "name": "special",
+      "value": 60
+    },
+    {
+      "name": "memorable",
+      "value": 60
+    },
+    {
+      "name": "unforgettable",
+      "value": 60
+    },
+    {
+      "name": "amazing",
+      "value": 60
+    },
+    {
+      "name": "wonderful",
+      "value": 60
+    },
+    {
+      "name": "fantastic",
+      "value": 60
+    },
+    {
+      "name": "incredible",
+      "value": 60
+    },
+    {
+      "name": "awesome",
+      "value": 60
+    },
+    {
+      "name": "perfect",
+      "value": 60
+    },
+    {
+      "name": "comfortable",
+      "value": 60
+    },
+    {
+      "name": "warm",
+      "value": 60
+    },
+    {
+      "name": "cool",
+      "value": 60
+    },
+    {
+      "name": "fresh_air",
+      "value": 60
+    },
+    {
+      "name": "sunshine",
+      "value": 60
+    },
+    {
+      "name": "sky",
+      "value": 60
+    },
+    {
+      "name": "scenery",
+      "value": 60
+    },
+    {
+      "name": "landscape",
+      "value": 60
+    },
+    {
+      "name": "brilliant",
+      "value": 50
+    },
+    {
+      "name": "excellent",
+      "value": 50
+    },
+    {
+      "name": "ideal",
+      "value": 50
+    },
+    {
+      "name": "breeze",
+      "value": 50
+    },
+    {
+      "name": "rainbow",
+      "value": 50
+    },
+    {
+      "name": "cloud",
+      "value": 50
+    },
+    {
+      "name": "horizon",
+      "value": 50
+    },
+    {
+      "name": "panorama",
+      "value": 50
+    }
+  ],
+  "total_words": 127,
+  "max_value": 1000,
+  "min_value": 50
+}
