@@ -75,7 +75,7 @@ function initPolarChart() {
             },
             itemStyle: {
                 color: function(params) {
-                    const colors = ['#E76CFD', '#74F9A6', '#69E8FF', '#FFAA60', '#FFFB7D'];
+                    const colors = ['#E76CFD', '#2ECC71', '#69E8FF', '#FFAA60', '#9B59B6'];
                     return colors[params.dataIndex];
                 },
                 shadowBlur: 10,
@@ -447,8 +447,8 @@ function initBookingChart() {
                 const param = params[0];
                 return `<div style="padding: 8px;">
                     <div style="font-weight: bold; margin-bottom: 3px;">${param.name}</div>
-                    <div style="color: ${param.color};">预订率: ${param.value}%</div>
-                    <div style="font-size: 10px; color: #ccc; margin-top: 3px;">点击查看详情</div>
+                    <div style="color: ${param.color};">Booking Rate: ${param.value}%</div>
+                        <div style="font-size: 10px; color: #ccc; margin-top: 3px;">Click for details</div>
                 </div>`;
             }
         },
@@ -472,7 +472,7 @@ function initBookingChart() {
             data: [84, 74, 73, 65, 58, 52],
             itemStyle: {
                 color: function(params) {
-                    const colors = ['#E76CFD', '#74F9A6', '#69E8FF', '#FFAA60', '#FFFB7D', '#FF6FBD'];
+                    const colors = ['#E76CFD', '#2ECC71', '#69E8FF', '#FFAA60', '#9B59B6', '#FF6FBD'];
                     return colors[params.dataIndex];
                 },
                 shadowBlur: 8,
@@ -506,14 +506,14 @@ function initBookingChart() {
     // Add click interaction
     myChart.on('click', function(params) {
         const cityInfo = {
-            'Haibei': '海北：84%预订率，高原湖泊美景吸引众多游客',
-            'Diqing': '迪庆：74%预订率，香格里拉的神秘魅力',
-            'Liuzhou': '柳州：73%预订率，螺蛳粉之乡的独特风情',
-            'Shaoyang': '邵阳：65%预订率，湖南山水的宁静之美',
-            'Puer': '普洱：58%预订率，茶马古道的历史韵味',
-            'Dandong': '丹东：52%预订率，边境城市的异域风情'
+            'Haibei': 'Haibei: 84% booking rate, plateau lake scenery attracts many tourists',
+            'Diqing': 'Diqing: 74% booking rate, mysterious charm of Shangri-La',
+            'Liuzhou': 'Liuzhou: 73% booking rate, unique charm of the snail noodle hometown',
+            'Shaoyang': 'Shaoyang: 65% booking rate, tranquil beauty of Hunan landscapes',
+            'Puer': 'Puer: 58% booking rate, historical charm of the Tea Horse Road',
+            'Dandong': 'Dandong: 52% booking rate, exotic charm of the border city'
         };
-        alert(cityInfo[params.name] || '点击了：' + params.name);
+        alert(cityInfo[params.name] || 'Clicked: ' + params.name);
     });
     
     window.addEventListener('resize', function() {
@@ -821,8 +821,8 @@ function initGrowthChart() {
                 const param = params[0];
                 return `<div style="padding: 8px;">
                     <div style="font-weight: bold; margin-bottom: 3px;">${param.name}</div>
-                    <div style="color: ${param.color};">同比增长: +${param.value}%</div>
-                    <div style="font-size: 10px; color: #ccc; margin-top: 3px;">点击查看趋势分析</div>
+                    <div style="color: ${param.color};">YoY Growth: +${param.value}%</div>
+                        <div style="font-size: 10px; color: #ccc; margin-top: 3px;">Click for trend analysis</div>
                 </div>`;
             }
         },
@@ -885,11 +885,11 @@ function initGrowthChart() {
     // Add click interaction
     myChart.on('click', function(params) {
         const growthInfo = {
-            'Shaoyang': '邵阳：同比增长60%，湖南山区旅游快速发展',
-            'Puer': '普洱：同比增长49%，茶文化旅游持续升温',
-            'Dandong': '丹东：同比增长16%，边境旅游稳步增长'
+            'Shaoyang': 'Shaoyang: 60% YoY growth, rapid development of mountain tourism in Hunan',
+            'Puer': 'Puer: 49% YoY growth, tea culture tourism continues to heat up',
+            'Dandong': 'Dandong: 16% YoY growth, steady growth of border tourism'
         };
-        alert(growthInfo[params.name] || '点击了：' + params.name);
+        alert(growthInfo[params.name] || 'Clicked: ' + params.name);
     });
     
     window.addEventListener('resize', function() {
@@ -1197,9 +1197,9 @@ function initTrendsChart() {
                 const percentage = ((params.value / 358) * 100).toFixed(1);
                 return `<div style="padding: 10px;">
                     <div style="font-weight: bold; margin-bottom: 5px;">${params.name}</div>
-                    <div style="color: ${params.color};">增长率: ${params.value}%</div>
-                    <div style="color: #ccc; font-size: 12px;">占比: ${percentage}%</div>
-                    <div style="font-size: 12px; color: #ccc; margin-top: 5px;">点击查看详细分析</div>
+                    <div style="color: ${params.color};">Growth Rate: ${params.value}%</div>
+                        <div style="color: #ccc; font-size: 12px;">Proportion: ${percentage}%</div>
+                        <div style="font-size: 12px; color: #ccc; margin-top: 5px;">Click for detailed analysis</div>
                 </div>`;
             }
         },
@@ -1219,7 +1219,7 @@ function initTrendsChart() {
                 center: ['50%', '45%'],
                 data: [
                     {value: 20, name: 'Rural Tourism Growth', itemStyle: {color: '#E76CFD', shadowBlur: 10, shadowColor: 'rgba(231, 108, 253, 0.3)'}},
-                    {value: 30, name: 'B&B Booking Growth', itemStyle: {color: '#74F9A6', shadowBlur: 10, shadowColor: 'rgba(116, 249, 166, 0.3)'}},
+                    {value: 30, name: 'B&B Booking Growth', itemStyle: {color: '#2ECC71', shadowBlur: 10, shadowColor: 'rgba(46, 204, 113, 0.3)'}},
                     {value: 58, name: 'Avoid Crowds Preference', itemStyle: {color: '#69E8FF', shadowBlur: 10, shadowColor: 'rgba(105, 232, 255, 0.3)'}},
                     {value: 250, name: 'Online Sharing Growth', itemStyle: {color: '#FFAA60', shadowBlur: 10, shadowColor: 'rgba(255, 170, 96, 0.3)'}}
                 ],
@@ -1257,12 +1257,12 @@ function initTrendsChart() {
     // Add click interaction
     myChart.on('click', function(params) {
         const trendInfo = {
-            'Rural Tourism Growth': '乡村旅游增长20%：回归自然，体验田园生活成为新趋势',
-            'B&B Booking Growth': '民宿预订增长30%：个性化住宿体验越来越受欢迎',
-            'Avoid Crowds Preference': '避开人群偏好58%：游客更倾向于选择小众目的地',
-            'Online Sharing Growth': '在线分享增长250%：社交媒体改变了旅游分享方式'
+            'Rural Tourism Growth': 'Rural tourism growth 20%: Returning to nature, experiencing rural life becomes a new trend',
+            'B&B Booking Growth': 'B&B booking growth 30%: Personalized accommodation experiences are increasingly popular',
+            'Avoid Crowds Preference': 'Avoid crowds preference 58%: Tourists prefer to choose niche destinations',
+            'Online Sharing Growth': 'Online sharing growth 250%: Social media has changed the way tourism is shared'
         };
-        alert(trendInfo[params.name] || '点击了：' + params.name);
+        alert(trendInfo[params.name] || 'Clicked: ' + params.name);
     });
     
     // Add auto rotation effect
